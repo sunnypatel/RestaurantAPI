@@ -1,5 +1,13 @@
 
 <h2>Restaurants</h2>
+<div class="row">
+	<div class="col-md-8">
+		
+	</div>
+	<div class="col-md-4">
+		<a href="new" class="btn btn-success">New</a>
+	</div>
+</div>
 
 <table class="table table-striped">
 <tr>
@@ -15,9 +23,9 @@
 		<td><%= restaurant.longitude %></td>
 		<td><%= restaurant.latitude %></td>
 		<td>
-			<button type="button" class="btn btn-default">Edit</button>
-			<button type="button" class="btn btn-primary">Items</button>
-			<button type="button" class="btn btn-warning">Delete</button>
+			<a href="edit/<%=restaurant.id%>" class="btn btn-default">Edit</a>
+			<a href="item/new" class="btn btn-primary">View items</a>
+			<a href="delete/<%=restaurant.id%>" class="btn btn-danger">Delete</a>
 		</td>
 	</tr>
 <% }) %>

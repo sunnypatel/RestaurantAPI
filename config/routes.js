@@ -46,5 +46,7 @@ module.exports.routes = {
   *                                                                          *
   ***************************************************************************/
   'GET /restaurant/create' : {response: 'badRequest'},
-  'POST /restaurant/create' : 'Restaurant.create'
+  'POST /restaurant/create' : 'Restaurant.create',
+  'GET /restaurant/new' : 'Restaurant.new',
+  'GET /restaurant/edit/:id' : 'Restaurant.edit'
 };
