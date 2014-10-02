@@ -1,0 +1,25 @@
+
+<h2>Restaurants</h2>
+
+<table class="table table-striped">
+<tr>
+	<th>Restaurant Name</th>
+	<th>Longitude</th>
+	<th>Latitude</th>
+	<th>Actions</th>
+</tr>
+
+<% restaurants.forEach(function(restaurant) { %>
+	<tr>
+		<td><%= restaurant.name %></td>
+		<td><%= restaurant.longitude %></td>
+		<td><%= restaurant.latitude %></td>
+		<td>
+			<button type="button" class="btn btn-default">Edit</button>
+			<button type="button" class="btn btn-primary">Items</button>
+			<button type="button" class="btn btn-warning">Delete</button>
+		</td>
+	</tr>
+<% }) %>
+
+</table>
