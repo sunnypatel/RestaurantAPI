@@ -23,6 +23,9 @@ module.exports = {
     },
     apiToken: {
       type: 'string'
+    },
+    apiToken_expires: {
+      type: 'datetime'
     }
   },
   beforeCreate: function (attrs, next) {
