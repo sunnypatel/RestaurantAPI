@@ -10,27 +10,24 @@ module.exports = {
   attributes: {
     phone: {
       type: 'string',
-      require: true,
+      required: true,
       unique: true
     },
     password: {
       type: 'string',
-      require: true
+      required: true
     },
     role: {
       type: 'string',
       enum: ['admin', 'restaurant', 'user']
     },
-    apiToken: {
-      type: 'string'
-    },
-    apiToken_expires: {
-      type: 'datetime'
+    tokens: {
+        collection: 'token',
+        via: 'user'
     }
   },
   beforeCreate: function (attrs, next) {
     var bcrypt = require('bcrypt');
-
     bcrypt.genSalt(10, function(err, salt) {
       if (err) return next(err);
 

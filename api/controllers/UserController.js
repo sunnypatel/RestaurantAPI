@@ -13,19 +13,40 @@ module.exports = {
 			if (err) res.json({ error: 'DB error' }, 500);
 
 			if (user) {
-				bcrypt.compare(req.body.password, user.password, function (err, match) {
+				return bcrypt.compare(req.body.password, user.password, function (err, match) {
 					if (err) res.json({ error: 'Server error' }, 500);
 
 					if (match) {
 						// password match
-						req.session.user = user.id;
-						req.session.apiToken = uuid.v1();
-						User.update({
-							apiToken:req.session.apiToken,
+						tokenService.generateToken()
+						.then(function (tokenObj) {
+							console.log("UserController Generated new token done");
+							// created new token
+							req.session.user = user.id;
+							req.session.apiToken = tokenObj.apiToken;
+							return Token.update({id:tokenObj.id}, {user: user.id})
+							.then(function(updated) {
+								return updated;
+							})
+							.catch(function(err){
+								// Failed assigning token to user
+								console.log("failed assigning token to user");
+								res.send(500, {
+									err: err
+								});
+							})
 						})
-						res.json({"userId": user.id, "apiToken": req.session.apiToken});
+						.spread(function(updated){
+							console.log("in spread" + updated);
+							return res.json({
+								userId: updated.user,
+								apiToken: updated.apiToken
+							});
+						})
+						.catch(function (err){
+							console.log("idk why im here");
+						})
 					} else {
-						// invalid password
 						if (req.session.user) req.session.user = null;
 						res.json({ error: 'Invalid password' }, 400);
 					}
@@ -36,17 +57,31 @@ module.exports = {
 		});
 	},
 	new: function(req, res){
-		var password = req.param('password');
 		var phone = req.param('phone');
-		var accountType = req.param('accountType');
+		var password = req.param('password');
+		var role = req.param('role');
+		var token = tokenService.generateToken();
 
 		User.create({
 			phone: phone,
 			password: password,
-			accountType: accountType
+			role: role,
+			token: token.id
 		}).
 		exec(function cb(err, created){
-			res.send(created);
+			console.log("exec");
+			console.log("err:" + err);
+			if (err) {
+				res.json({ error: err}, 500);
+			} else if (!err && created) {
+				res.send(created);
+			} else {
+				res.send(500, {error: 'Crashing and burning here, contact us asap'});
+			}
 		});
 	},
+	test: function (req, res) {
+		tokenService.generateToken();
+		res.send(200);
+	}
 }
