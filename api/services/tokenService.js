@@ -29,24 +29,5 @@ module.exports = {
             console.log('Error generateToken: ' + err);
             return { err: err };
         });
-        /*
-        Token.create({
-            apiToken: apiToken,
-            expiresAt: expiresAt,
-            hasExpired: false
-        })
-        .exec(function createCB(err, created){
-            if(err) return {err: err};
-            else if (!err && created){
-                return {
-                    apiToken: created.apiToken,
-                    expiresAt: created.expiresAt
-                }
-            } else {
-                return {
-                    err: "Dont know wtf happened" + err
-                }
-            }
-        });*/
     }
 }
