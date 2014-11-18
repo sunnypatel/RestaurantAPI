@@ -11,6 +11,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # Every Vagrant virtual environment requires a box to build off of.
   config.vm.box = "ubuntu/trusty64"
+  config.vm.hostname = "restaurantapi-vagrant"
   config.vm.box_url = "https://vagrantcloud.com/ubuntu/trusty64"
   config.vm.provision :shell, path: "./bootstrap.sh"
   config.vm.network "private_network", ip: "192.168.50.20"
@@ -32,7 +33,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Bridged networks make the machine appear as another physical device on
   # your network.
   # config.vm.network "public_network"
-
   # If true, then any SSH connections made will enable agent forwarding.
   # Default value: false
   # config.ssh.forward_agent = true
