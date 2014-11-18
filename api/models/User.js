@@ -21,9 +21,8 @@ module.exports = {
       type: 'string',
       enum: ['admin', 'restaurant', 'user']
     },
-    tokens: {
-        collection: 'token',
-        via: 'user'
+    token: {
+        model: 'token'
     }
   },
   beforeCreate: function (attrs, next) {

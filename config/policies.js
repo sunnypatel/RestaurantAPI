@@ -27,7 +27,9 @@ module.exports.policies = {
   ***************************************************************************/
 
   // '*': true,
-
+  UserController: {
+    new: ['isLoggedIn','isAdmin'],
+  }
   /***************************************************************************
   *                                                                          *
   * Here's an example of mapping some policies to run before a controller    *

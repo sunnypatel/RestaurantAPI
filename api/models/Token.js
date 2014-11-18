@@ -1,15 +1,12 @@
 module.exports = {
+    autoPK: false,
     attributes: {
         apiToken: {
           type: 'string',
-          // TODO: Put index here, faster lookups
+          primaryKey: true
         },
         expiresAt: {
           type: 'integer'
-        },
-        hasExpired: {
-            type: 'boolean',
-            // TODO: put an index here, faster lookups
         },
         user: {
             model: 'user'

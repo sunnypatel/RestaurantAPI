@@ -22,7 +22,7 @@ module.exports = {
 						.then(function (tokenObj) {
 							console.log("UserController Generated new token done");
 							// created new token
-							req.session.user = user.id;
+							req.session.userId = user.id;
 							req.session.apiToken = tokenObj.apiToken;
 							return Token.update({id:tokenObj.id}, {user: user.id})
 							.then(function(updated) {
@@ -47,7 +47,7 @@ module.exports = {
 							console.log("idk why im here");
 						})
 					} else {
-						if (req.session.user) req.session.user = null;
+						if (req.session.userId) req.session.userId = null;
 						res.json({ error: 'Invalid password' }, 400);
 					}
 				});
@@ -81,7 +81,9 @@ module.exports = {
 		});
 	},
 	test: function (req, res) {
-		tokenService.generateToken();
-		res.send(200);
+		var token = req.param('token');
+		var userid = req.param('userId');
+
+		//res.send(400);
 	}
 }
