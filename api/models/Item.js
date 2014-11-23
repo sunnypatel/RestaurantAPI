@@ -14,6 +14,12 @@ module.exports = {
         price: {
             type: 'FLOAT'
         },
+        description: {
+            type: 'STRING'
+        },
+        image: {
+            type: 'STRING'
+        },
         restaurant: {
             model: 'restaurant'
         }
