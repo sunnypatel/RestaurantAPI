@@ -4,13 +4,12 @@
 * @description :: Server-side logic for managing Restaurant
 * @help        :: See http://links.sailsjs.org/docs/controllers
 */
-
+var TAG = "RestaurantController: ";
 module.exports = {
 	list : function(req, res) {
 		Restaurant.find({
 			sort: 'updatedAt DESC'
 		}).exec(function findCB(err,restaurants){
-			console.log(restaurants);
 			return res.view({
 				restaurants : restaurants
 			});
@@ -20,7 +19,7 @@ module.exports = {
 		var name = req.param('name');
 		var longitude = req.param('longitude');
 		var latitude = req.param('latitude');
-		console.log('Attempting to create new restaurant: ' + name);
+		console.log(TAG + 'Attempting to create new restaurant: ' + name);
 
 		Restaurant.create({
 			name: name,
@@ -30,7 +29,7 @@ module.exports = {
 			if (err) {
 				res.send(500, err);
 			} else {
-				console.log('Restaurant created: ' + created.name);
+				console.log(TAG + 'Restaurant created: ' + created.name);
 				res.redirect('/restaurant/list');
 			}
 		})

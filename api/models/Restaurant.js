@@ -7,8 +7,22 @@
 
 module.exports = {
 
-  attributes: {
-
-  }
+    attributes: {
+        name: {
+            type: 'STRING',
+            required: true,
+        },
+        latitude: {
+            type: 'FLOAT',
+            defaultsTo: 39.9544  // Drexel's 31st and Market
+        },
+        longitude: {
+            type: 'FLOAT',
+            defaultsTo: -75.1850 // Drexel's 31st and Market
+        },
+        items: {
+            collection: 'item',
+            via: 'restaurant'
+        }
+    }
 };
-
