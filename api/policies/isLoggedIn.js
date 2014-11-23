@@ -1,9 +1,12 @@
+var TAG = "Policy: isLoggedIn: ";
+
 module.exports = function isLoggedIn (req, res, next) {
   var apiToken = req.param('apiToken');
   if (req.session.userId) {
     Token.findOne({apiToken:apiToken})
     .then(function (found){
-      if (found.user == req.session.userId && !tokenService.isExpired(found.expiresAt)) {
+        console.log(TAG + "User auth check passed");
+      if (found.user == req.session.userId && !tokenService.isExpired(found)) {
         // user is valid
         return next();
       } else {

@@ -4,6 +4,8 @@
  * @description :: Server-side logic for managing users
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
+var TAG = "UserController: ";
+
 module.exports = {
 	login: function (req, res) {
 		var bcrypt = require('bcrypt');
@@ -14,76 +16,95 @@ module.exports = {
 
 			if (user) {
 				return bcrypt.compare(req.body.password, user.password, function (err, match) {
+					console.log(TAG + "Attempting login user: " + user.id);
+					// TODO: Should create a new apiToken everytime?
 					if (err) res.json({ error: 'Server error' }, 500);
 
 					if (match) {
 						// password match
-						tokenService.generateToken()
-						.then(function (tokenObj) {
-							console.log("UserController Generated new token done");
-							// created new token
-							req.session.userId = user.id;
-							req.session.apiToken = tokenObj.apiToken;
-							return Token.update({id:tokenObj.id}, {user: user.id})
-							.then(function(updated) {
-								return updated;
+						console.log(TAG + "User(" + user.id + ") password check passed");
+						console.log("Token: " + user.token);
+						if (TokenService.isExpired(user.token)) {
+							return TokenService.generateToken()
+							.then(function (tokenObj) {
+								console.log(TAG + "Received new token");
+								// created new token
+								req.session.userId = user.id;
+								req.session.apiToken = tokenObj.apiToken;
+								return Token.update({apiToken:tokenObj.apiToken}, {user: user.id})
+								.then(function(updated) {
+									return updated;
+								})
+								.catch(function(err){
+									// Failed assigning token to user
+									console.log(TAG + "Failed assigning token to user");
+									res.send(500, {
+										err: err
+									});
+								})
 							})
-							.catch(function(err){
-								// Failed assigning token to user
-								console.log("failed assigning token to user");
-								res.send(500, {
-									err: err
+							.spread(function(updated){
+								console.log(TAG + "Logged in user: " + updated.user);
+								return res.json({
+									apiToken: updated.apiToken
 								});
 							})
-						})
-						.spread(function(updated){
-							console.log("in spread" + updated);
+							.catch(function (err){
+								console.log(TAG + "Catching error: " + err);
+							})
+						} else {
 							return res.json({
-								userId: updated.user,
-								apiToken: updated.apiToken
-							});
-						})
-						.catch(function (err){
-							console.log("idk why im here");
-						})
+								apiToken: match.token
+							})
+						}
+
+
+
 					} else {
 						if (req.session.userId) req.session.userId = null;
 						res.json({ error: 'Invalid password' }, 400);
 					}
 				});
 			} else {
-				res.json({ error: 'User not found' }, 404);
+				res.json({ error: 'User not found, password check failed' }, 404);
 			}
 		});
 	},
 	new: function(req, res){
+		console.log(TAG + "Creating new user");
 		var phone = req.param('phone');
 		var password = req.param('password');
 		var role = req.param('role');
-		var token = tokenService.generateToken();
 
-		User.create({
-			phone: phone,
-			password: password,
-			role: role,
-			token: token.id
-		}).
-		exec(function cb(err, created){
-			console.log("exec");
-			console.log("err:" + err);
-			if (err) {
-				res.json({ error: err}, 500);
-			} else if (!err && created) {
-				res.send(created);
-			} else {
-				res.send(500, {error: 'Crashing and burning here, contact us asap'});
-			}
-		});
+		TokenService.generateToken()
+		.then(function (tokenObj){
+			console.log(TAG + "Created new token");
+			User.create({
+				phone: phone,
+				password: password,
+				role: role,
+				apiToken: tokenObj.apiToken
+			})
+			.exec(function cb(err, created){
+				if (err) {
+					console.log(TAG + "Error " + err);
+					res.json({error: err}, 500);
+				} else if (!err && created) {
+					res.send(created);
+				} else {
+					console.log(TAG + "Attempted creating new user, failed completely");
+					res.send(500, {error: 'Crashing and burning here, contact us asap.'});
+				}
+			});
+		})
+		.catch(function (err){
+			console.log(TAG + "Failed getting token: " + err);
+		})
+
+
 	},
 	test: function (req, res) {
 		var token = req.param('token');
 		var userid = req.param('userId');
-
-		//res.send(400);
 	}
 }
