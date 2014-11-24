@@ -24,13 +24,12 @@ module.exports = {
 						// password match
 						console.log(TAG + "User(" + user.id + ") password check passed");
 						console.log("Token: " + user.token);
-						if (TokenService.isExpired(user.token)) {
+						if (!user.token || TokenService.isExpired(user.token)) {
 							return TokenService.generateToken()
 							.then(function (tokenObj) {
 								console.log(TAG + "Received new token");
 								// created new token
 								req.session.userId = user.id;
-								req.session.apiToken = tokenObj.apiToken;
 								return Token.update({apiToken:tokenObj.apiToken}, {user: user.id})
 								.then(function(updated) {
 									return updated;
@@ -53,12 +52,11 @@ module.exports = {
 								console.log(TAG + "Catching error: " + err);
 							})
 						} else {
+							req.session.userId = user.id;
 							return res.json({
-								apiToken: match.token
+								apiToken: user.token
 							})
 						}
-
-
 
 					} else {
 						if (req.session.userId) req.session.userId = null;
@@ -83,13 +81,14 @@ module.exports = {
 				phone: phone,
 				password: password,
 				role: role,
-				apiToken: tokenObj.apiToken
+				token: tokenObj.apiToken
 			})
 			.exec(function cb(err, created){
 				if (err) {
 					console.log(TAG + "Error " + err);
 					res.json({error: err}, 500);
 				} else if (!err && created) {
+					req.session.userId = created.id;
 					res.send(created);
 				} else {
 					console.log(TAG + "Attempted creating new user, failed completely");

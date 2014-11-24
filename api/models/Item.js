@@ -9,19 +9,27 @@ module.exports = {
 
     attributes: {
         name: {
-            type: 'STRING'
+            type: 'string'
         },
         price: {
-            type: 'FLOAT'
+            type: 'float'
         },
         description: {
-            type: 'STRING'
+            type: 'string'
         },
         image: {
-            type: 'STRING'
+            type: 'string'
         },
         restaurant: {
             model: 'restaurant'
+        },
+        tags: {
+            collection: 'Tags',
+            via: 'items'
+        },
+        ingredents: {
+            collection: 'Ingredents',
+            via: 'items'
         }
     }
 };

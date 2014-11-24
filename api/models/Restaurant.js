@@ -9,15 +9,15 @@ module.exports = {
 
     attributes: {
         name: {
-            type: 'STRING',
+            type: 'string',
             required: true,
         },
         latitude: {
-            type: 'FLOAT',
+            type: 'string',
             defaultsTo: 39.9544  // Drexel's 31st and Market
         },
         longitude: {
-            type: 'FLOAT',
+            type: 'float',
             defaultsTo: -75.1850 // Drexel's 31st and Market
         },
         items: {

@@ -6,10 +6,15 @@
 */
 
 module.exports = {
-
-  attributes: {
-      name: {
-          type: 'string'
-      }
-  }
+    autoCreatedAt: false,
+    autoUpdatedAt: false,
+    attributes: {
+        name: {
+            type: 'string'
+        },
+        items: {
+            collection: 'Item',
+            via: 'tags'
+        }
+    }
 };

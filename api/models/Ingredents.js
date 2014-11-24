@@ -6,10 +6,15 @@
 */
 
 module.exports = {
-
-  attributes: {
-      name: {
-          type: 'STRING'
-      }
-  }
+    autoCreatedAt: false,
+    autoUpdatedAt: false,
+    attributes: {
+        name: {
+            type: 'string'
+        },
+        items: {
+            collection: 'Item',
+            via: 'ingredents'
+        }
+    }
 };
