@@ -21,7 +21,8 @@ module.exports = {
             type: 'string'
         },
         restaurant: {
-            model: 'restaurant'
+            model: 'restaurant',
+            required: true
         },
         tags: {
             collection: 'Tags',

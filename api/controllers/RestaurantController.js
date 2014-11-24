@@ -26,12 +26,8 @@ module.exports = {
 			longitude: longitude,
 			latitude: latitude
 		}).exec(function createCB(err, created){
-			if (err) {
-				res.send(500, err);
-			} else {
-				console.log(TAG + 'Restaurant created: ' + created.name);
-				res.redirect('/restaurant/list');
-			}
+			console.log(TAG + 'Restaurant created: ' + created.name);
+			res.send(created);
 		})
 	},
 	new: function(req, res){
