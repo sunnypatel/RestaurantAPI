@@ -28,6 +28,9 @@ module.exports.policies = {
 
   // '*': true,
   UserController: {
+  },
+  RestaurantController: {
+      create: ['isLoggedIn', 'isRestaurant']
   }
   /***************************************************************************
   *                                                                          *

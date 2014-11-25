@@ -21,7 +21,7 @@ module.exports = {
       type: 'string',
       enum: ['admin', 'restaurant', 'user']
     },
-    apiToken: {
+    token: {
         model: 'token'
     }
   },
