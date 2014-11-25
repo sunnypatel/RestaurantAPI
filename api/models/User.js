@@ -23,6 +23,10 @@ module.exports = {
     },
     token: {
         model: 'token'
+    },
+    ownsRestaurants: {
+      collection: 'restaurant',
+      via:'owners'
     }
   },
   beforeCreate: function (attrs, next) {
