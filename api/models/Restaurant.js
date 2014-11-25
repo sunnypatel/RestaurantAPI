@@ -23,6 +23,10 @@ module.exports = {
         items: {
             collection: 'item',
             via: 'restaurant'
+        },
+        owners: {
+          collection: 'user',
+          via: 'ownsRestaurants'
         }
     }
 };

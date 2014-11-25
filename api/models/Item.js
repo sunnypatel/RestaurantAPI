@@ -28,8 +28,8 @@ module.exports = {
             collection: 'Tags',
             via: 'items'
         },
-        ingredents: {
-            collection: 'Ingredents',
+        ingredients: {
+            collection: 'ingredients',
             via: 'items'
         }
     }

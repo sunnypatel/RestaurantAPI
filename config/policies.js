@@ -30,7 +30,9 @@ module.exports.policies = {
   UserController: {
   },
   RestaurantController: {
-      create: ['isLoggedIn', 'isRestaurant']
+      create: ['isLoggedIn', 'isRestaurant'],
+      edit: ['isLoggedIn', 'isRestaurant', 'isTheRestaurantOwner']
+
   }
   /***************************************************************************
   *                                                                          *
