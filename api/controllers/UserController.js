@@ -124,7 +124,6 @@ module.exports = {
 					console.log(TAG + "Error " + err);
 					res.json({error: err}, 500);
 				} else if (!err && created) {
-					req.session.userId = created.id;
 					res.send(created);
 				} else {
 					console.log(TAG + "Attempted creating new user, failed completely");
