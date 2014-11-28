@@ -134,7 +134,7 @@ module.exports = {
 		.catch(function (err){
 			console.log(TAG + "Failed getting token: " + err);
 		})
-	}
+	},
 	test: function (req, res) {
 		var token = req.param('token');
 		var userid = req.param('userId');
