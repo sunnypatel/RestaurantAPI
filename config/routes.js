@@ -47,5 +47,10 @@ module.exports.routes = {
   ***************************************************************************/
   'GET /restaurant/create' : {response: 'badRequest'},
   'POST /restaurant/create' : 'Restaurant.create',
-  'POST /user/login' : 'User.login'
+  'POST /user/login' : 'User.login',
+  'GET /user/login' : {response: 'badRequest'},
+  'POST /user/new' : 'User.new',
+  'GET /user/new' : {response: 'badRequest'},
+  'POST /user/newAdmin' : 'User.newAdmin',
+  'GET /user/newAdmin' : {response: 'badRequest'}
 };

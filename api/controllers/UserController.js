@@ -12,7 +12,7 @@ module.exports = {
 		var uuid = require('node-uuid');
 
 		if (!req.body.phone || !req.body.password)
-			res.send(401);
+			res.send(401, {error: 'Missing fields'});
 		else {
 			User.findOneByPhone(req.body.phone).exec(function (err, user) {
 				if (err) res.json({ error: 'DB error' }, 500);
@@ -80,7 +80,7 @@ module.exports = {
 		var role = req.param('role');
 
 		if (role=='admin' || !phone || !password) {
-			res.send(404);
+			res.send(500, {error: 'Missing fields'});
 		} else {
 			TokenService.generateToken()
 			.then(function (tokenObj){
