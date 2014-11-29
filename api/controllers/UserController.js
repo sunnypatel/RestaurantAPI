@@ -74,6 +74,42 @@ module.exports = {
 		var password = req.param('password');
 		var role = req.param('role');
 
+		if (role=='admin') {
+			res.send(404);
+		} else {
+			TokenService.generateToken()
+			.then(function (tokenObj){
+				console.log(TAG + "Created new token");
+				User.create({
+					phone: phone,
+					password: password,
+					role: role,
+					token: tokenObj.apiToken
+				})
+				.exec(function cb(err, created){
+					if (err) {
+						console.log(TAG + "Error " + err);
+						res.json({error: err}, 500);
+					} else if (!err && created) {
+						req.session.userId = created.id;
+						res.send(created);
+					} else {
+						console.log(TAG + "Attempted creating new user, failed completely");
+						res.send(500, {error: 'Crashing and burning here, contact us asap.'});
+					}
+				});
+			})
+			.catch(function (err){
+				console.log(TAG + "Failed getting token: " + err);
+			})
+		}
+	},
+	newAdmin: function(req, res) {
+		console.log(TAG + "Creating new admin");
+		var phone = req.param('phone');
+		var password = req.param('password');
+		var role = req.param('role');
+
 		TokenService.generateToken()
 		.then(function (tokenObj){
 			console.log(TAG + "Created new token");
@@ -88,7 +124,6 @@ module.exports = {
 					console.log(TAG + "Error " + err);
 					res.json({error: err}, 500);
 				} else if (!err && created) {
-					req.session.userId = created.id;
 					res.send(created);
 				} else {
 					console.log(TAG + "Attempted creating new user, failed completely");
@@ -99,8 +134,6 @@ module.exports = {
 		.catch(function (err){
 			console.log(TAG + "Failed getting token: " + err);
 		})
-
-
 	},
 	test: function (req, res) {
 		var token = req.param('token');
