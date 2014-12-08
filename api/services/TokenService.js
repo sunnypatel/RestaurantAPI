@@ -6,32 +6,22 @@ module.exports = {
     * @Params token object or token id
     */
     isExpired: function (token) {
-        if (token.expiresAt) {
-            console.log(TAG + "Got token object");
-            datetimeToChk = token.expiresAt;
-            var now = new Date().getTime();
-            if (datetimeToChk > now) {
-                console.log(TAG + "Token valid");
-                return false;
-            } else {
-                console.log(TAG + "Token expired");
-                return true;
-            }
-        } else {
-            console.log(TAG + "Searching by apiToken");
-            return Token.findOne({
+        console.log(TAG + "Searching for token by apiToken: " + token);
+        return Token.findOne({
                 apiToken: token
             })
-            .exec(function (err, found){
-                if (found)
-                    return TokenService.isExpired(found);
-                    else {
-                        console.log(TAG + "Unknown param...returning false");
-                        return false;
-                    }
-                })
-            }
-        },
+            .then(function (tokenObj){
+                console.log(TAG + "Token object found");
+                var now = new Date().getTime();
+                if (now > tokenObj.expiresAt)
+                    return true;
+                else
+                    return false;
+            })
+            .catch(function (err){
+                console.log(TAG + "Token object not found, err:" + err);
+            });
+    },
     generateToken: function() {
         console.log(TAG + "Generating new token...");
         var uuid = require('node-uuid');

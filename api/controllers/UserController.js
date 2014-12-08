@@ -10,6 +10,7 @@ module.exports = {
 	login: function (req, res) {
 		var bcrypt = require('bcrypt');
 		var uuid = require('node-uuid');
+		var bluebird = require('bluebird');
 
 		if (!req.body.phone || !req.body.password)
 			res.send(401, {error: 'Missing fields'});
@@ -26,41 +27,53 @@ module.exports = {
 						if (match) {
 							// password match
 							console.log(TAG + "User(" + user.id + ") password check passed");
-							console.log("Token: " + user.token);
-							if (!user.token || TokenService.isExpired(user.token)) {
-								return TokenService.generateToken()
-								.then(function (tokenObj) {
-									console.log(TAG + "Received new token");
-									// created new token
-									req.session.userId = user.id;
-									return Token.update({apiToken:tokenObj.apiToken}, {user: user.id})
-									.then(function(updated) {
-										return updated;
-									})
-									.catch(function(err){
-										// Failed assigning token to user
-										console.log(TAG + "Failed assigning token to user");
-										res.send(500, {
-											err: err
+							console.log("Token: " + user.apiToken);
+							TokenService.isExpired(user.apiToken)
+							.then(function (isExpired){
+								console.log(TAG + "Token expired:" + isExpired);
+								if (isExpired) {
+									console.log(TAG + "Attempting to create new token");
+									return TokenService.generateToken()
+									.then(function (tokenObj) {
+										console.log(TAG + "Received new token");
+										// created new token
+										req.session.userId = user.id;
+										return User.update({
+											id: user.id
+										}, {
+											apiToken: tokenObj.apiToken
+										})
+										.then(function(updated) {
+											return updated;
+										})
+										.catch(function(err){
+											// Failed updating user's apiToken
+											console.log(TAG + "Failed assigning token to user");
+											res.send(500, {
+												err: err
+											});
 										});
 									})
-								})
-								.spread(function(updated){
-									console.log(TAG + "Logged in user: " + updated.user);
+									.spread(function(updated){
+										console.log(TAG + "Logged in user: " + updated);
+										return res.json({
+											apiToken: updated.apiToken
+										});
+									})
+									.catch(function (err){
+										console.log(TAG + "Generating token failed, err: " + err);
+									})
+								} else {
+									console.log(TAG + "Everything checks out, heres ur token");
+									req.session.userId = user.id;
 									return res.json({
-										apiToken: updated.apiToken
-									});
-								})
-								.catch(function (err){
-									console.log(TAG + "Catching error: " + err);
-								})
-							} else {
-								req.session.userId = user.id;
-								return res.json({
-									apiToken: user.token
-								})
-							}
-
+										apiToken: user.apiToken
+									})
+								}
+							})
+							.catch(function (err) {
+								console.log(TAG + 'Token expired check failed, err: ' + err);
+							});
 						} else {
 							if (req.session.userId) req.session.userId = null;
 							res.json({ error: 'Invalid password' }, 400);
@@ -89,7 +102,7 @@ module.exports = {
 					phone: phone,
 					password: password,
 					role: role,
-					token: tokenObj.apiToken
+					apiToken: tokenObj.apiToken
 				})
 				.exec(function cb(err, created){
 					if (err) {
@@ -125,7 +138,7 @@ module.exports = {
 					phone: phone,
 					password: password,
 					role: role,
-					token: tokenObj.apiToken
+					apiToken: tokenObj.apiToken
 				})
 				.exec(function cb(err, created){
 					if (err) {
@@ -145,38 +158,45 @@ module.exports = {
 		}
 	},
 	apiToken: function(req, res) {
-		console.log(TAG + 'Return user block');
+		console.log(TAG + '/apiToken');
 		var apiToken = req.param('apiToken');
-		if (!apiToken)
+		if (!apiToken) {
+			console.log(TAG + "Missing fields");
 			res.send(401);
+		}
 		else {
-			if (req.session.userId) {
-				User.findOne({
-					id:req.session.userId,
-					token: apiToken
-				})
-				.populate('ownsRestaurants')
-				.then(function (found){
-					console.log(TAG + "Token found, checking if expired");
-					console.log(found);
-					if (!TokenService.isExpired(apiToken)) {
+			User.findOne({
+				apiToken: apiToken
+			})
+			.populate('ownsRestaurants')
+			.then(function (found){
+				console.log(TAG + "Token found, checking if expired");
+				console.log(found);
+				TokenService.isExpired(apiToken)
+				.then(function (isExpired){
+					if (isExpired === false) {
 						console.log(TAG + "User isLoggedIn returning block");
+						delete found.password;
+						delete found.createdAt;
+						delete found.updatedAt;
+						delete found.id;
 						// user is valid
 						return res.send(200, found);
 					} else {
-						console.log("User not found or token mismatch");
+						console.log(TAG + "User not found or token mismatch");
 						// token not found or expired
 						return res.send(401);
 					}
 				})
 				.catch(function (err){
-					console.log(TAG + "Error: " + err);
+					console.log(TAG + "Token isExpired check failed, err: " + err);
 					return res.send(500);
-				});
-			} else {
-				console.log("userId not in session");
-				return res.send(401);
-			}
+				})
+			})
+			.catch(function (err){
+				console.log(TAG + "apiToken not found : " + err);
+				return res.send(500);
+			});
 		}
 	}
 }

@@ -11,7 +11,7 @@ module.exports = {
 		var longitude = req.param('longitude');
 		var latitude = req.param('latitude');
 		var owner = req.param('userId');
-		
+
 		if (!owner)
 			owner = req.session.userId;
 		console.log(TAG + 'Attempting to create new restaurant: ' + name);
