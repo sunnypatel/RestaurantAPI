@@ -49,6 +49,7 @@ module.exports.routes = {
   'POST /restaurant/create' : 'Restaurant.create',
   'POST /user/login' : 'User.login',
   'GET /user/login' : {response: 'badRequest'},
+  'POST /user'      : 'User.apiToken',
   'POST /user/new' : 'User.new',
   'GET /user/new' : {response: 'badRequest'},
   'POST /user/newAdmin' : 'User.newAdmin',

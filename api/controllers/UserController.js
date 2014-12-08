@@ -143,5 +143,40 @@ module.exports = {
 				console.log(TAG + "Failed getting token: " + err);
 			})
 		}
+	},
+	apiToken: function(req, res) {
+		console.log(TAG + 'Return user block');
+		var apiToken = req.param('apiToken');
+		if (!apiToken)
+			res.send(401);
+		else {
+			if (req.session.userId) {
+				User.findOne({
+					id:req.session.userId,
+					token: apiToken
+				})
+				.populate('ownsRestaurants')
+				.then(function (found){
+					console.log(TAG + "Token found, checking if expired");
+					console.log(found);
+					if (!TokenService.isExpired(apiToken)) {
+						console.log(TAG + "User isLoggedIn returning block");
+						// user is valid
+						return res.send(200, found);
+					} else {
+						console.log("User not found or token mismatch");
+						// token not found or expired
+						return res.send(401);
+					}
+				})
+				.catch(function (err){
+					console.log(TAG + "Error: " + err);
+					return res.send(500);
+				});
+			} else {
+				console.log("userId not in session");
+				return res.send(401);
+			}
+		}
 	}
 }
