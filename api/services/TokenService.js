@@ -19,7 +19,7 @@ module.exports = {
                     return false;
             })
             .catch(function (err){
-                console.log(TAG + "Token object not found, err:" + err);
+                console.log(TAG + "isExpired: Token object not found, err:" + err);
             });
     },
     generateToken: function() {
