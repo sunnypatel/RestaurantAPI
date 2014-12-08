@@ -16,7 +16,7 @@ module.exports = {
                 if (now > tokenObj.expiresAt)
                     return true;
                 else
-                    return false;
+                    return null;
             })
             .catch(function (err){
                 console.log(TAG + "isExpired: Token object not found, err:" + err);
@@ -33,7 +33,7 @@ module.exports = {
         return Token.create({
             apiToken: apiToken,
             expiresAt: expiresAt,
-            hasExpired: false
+            user: null
         })
         .then(function (created){
             console.log(TAG + "Generated new token");

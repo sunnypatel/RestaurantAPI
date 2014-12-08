@@ -19,12 +19,12 @@ module.exports = function isLoggedIn (req, res, next) {
                 console.log(found);
                 TokenService.isExpired(apiToken)
                 .then(function (isExpired){
-                    if (isExpired === false) {
+                    if (!isExpired) {
                         console.log(TAG + "User isLoggedIn moving on...");
                         // user is valid
                         return next();
                     } else {
-                        console.log("User not found or token mismatch");
+                        console.log(TAG + "User not found or token mismatch");
                         // token not found or expired
                         return res.send(401);
                     }

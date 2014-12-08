@@ -2,13 +2,13 @@ module.exports = {
     autoPK: false,
     attributes: {
         apiToken: {
-          type: 'string',
-          primaryKey: true
+            type: 'string',
+            primaryKey: true
         },
         expiresAt: {
-          type: 'integer'
+            type: 'integer'
         },
-        user: {
+        loggedUser: {
             model: 'user'
         }
     }

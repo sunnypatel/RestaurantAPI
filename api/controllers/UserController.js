@@ -10,7 +10,6 @@ module.exports = {
 	login: function (req, res) {
 		var bcrypt = require('bcrypt');
 		var uuid = require('node-uuid');
-		var bluebird = require('bluebird');
 
 		if (!req.body.phone || !req.body.password)
 			res.send(401, {error: 'Missing fields'});
@@ -31,30 +30,31 @@ module.exports = {
 							TokenService.isExpired(user.apiToken)
 							.then(function (isExpired){
 								console.log(TAG + "Token expired:" + isExpired);
-								if (isExpired) {
+								if (!isExpired) {
+									console.log(TAG + "Everything checks out, heres ur token");
+									req.session.userId = user.id;
+									return res.json({
+										apiToken: user.apiToken
+									})
+								}
+								else {
 									console.log(TAG + "Attempting to create new token");
 									return TokenService.generateToken()
 									.then(function (tokenObj) {
 										console.log(TAG + "Received new token");
 										// created new token
 										req.session.userId = user.id;
-										return User.update({
-											id: user.id
-										}, {
-											apiToken: tokenObj.apiToken
-										})
+										return User.update({id: user.id}, {apiToken: tokenObj.apiToken})
 										.then(function(updated) {
 											return updated;
 										})
 										.catch(function(err){
 											// Failed updating user's apiToken
 											console.log(TAG + "Failed assigning token to user");
-											res.send(500, {
-												err: err
-											});
+											res.send(500, { err: err });
 										});
 									})
-									.spread(function(updated){
+									.then(function(updated){
 										console.log(TAG + "Logged in user: " + updated);
 										return res.json({
 											apiToken: updated.apiToken
@@ -62,12 +62,6 @@ module.exports = {
 									})
 									.catch(function (err){
 										console.log(TAG + "Generating token failed, err: " + err);
-									})
-								} else {
-									console.log(TAG + "Everything checks out, heres ur token");
-									req.session.userId = user.id;
-									return res.json({
-										apiToken: user.apiToken
 									})
 								}
 							})
