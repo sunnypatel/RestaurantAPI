@@ -6,6 +6,7 @@ module.exports = function isLoggedIn (req, res, next) {
     if (!apiToken)
         res.send(401);
     else {
+        // TODO: Probably can check if token is expired and if token is matched with user asyncroniously
         console.log(TAG + "apiToken " + apiToken);
         console.log(TAG + "session.userId=" + req.session.userId);
         if (req.session.userId) {
