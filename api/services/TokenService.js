@@ -8,32 +8,32 @@ module.exports = {
     isExpired: function (token) {
         console.log(TAG + "Searching for token by apiToken: " + token);
         return Token.findOne({
-                apiToken: token
-            })
-            .then(function (tokenObj){
-                console.log(TAG + "Token object found");
-                var now = new Date().getTime();
-                if (now > tokenObj.expiresAt)
-                    return true;
-                else
-                    return null;
-            })
-            .catch(function (err){
-                console.log(TAG + "isExpired: Token object not found, err:" + err);
-            });
+            apiToken: token
+        })
+        .then(function (tokenObj){
+            console.log(TAG + "Token object found");
+            var now = new Date().getTime();
+            if (now > tokenObj.expiresAt)
+                return true;
+            else
+                return false;
+        })
+        .catch(function (err){
+            console.log(TAG + "isExpired: Token object not found, err:" + err);
+            return true;
+        });
     },
     generateToken: function() {
         console.log(TAG + "Generating new token...");
         var uuid = require('node-uuid');
-        var expireAfterMin = 60;
+        var expireAfterMin = .5;
         var now = new Date().getTime();
         var expiresAt = now + (60000 * expireAfterMin);
         var apiToken = uuid.v1();
 
         return Token.create({
             apiToken: apiToken,
-            expiresAt: expiresAt,
-            user: null
+            expiresAt: expiresAt
         })
         .then(function (created){
             console.log(TAG + "Generated new token");

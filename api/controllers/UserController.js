@@ -29,7 +29,7 @@ module.exports = {
 							console.log("Token: " + user.apiToken);
 							TokenService.isExpired(user.apiToken)
 							.then(function (isExpired){
-								console.log(TAG + "Token expired:" + isExpired);
+								console.log(TAG + "Token expired: " + isExpired);
 								if (!isExpired) {
 									console.log(TAG + "Everything checks out, heres ur token");
 									req.session.userId = user.id;
@@ -54,7 +54,7 @@ module.exports = {
 											res.send(500, { err: err });
 										});
 									})
-									.then(function(updated){
+									.spread(function(updated){
 										console.log(TAG + "Logged in user: " + updated);
 										return res.json({
 											apiToken: updated.apiToken
