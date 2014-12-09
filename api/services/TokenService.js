@@ -26,7 +26,7 @@ module.exports = {
     generateToken: function() {
         console.log(TAG + "Generating new token...");
         var uuid = require('node-uuid');
-        var expireAfterMin = .5;
+        var expireAfterMin = 60;
         var now = new Date().getTime();
         var expiresAt = now + (60000 * expireAfterMin);
         var apiToken = uuid.v1();
