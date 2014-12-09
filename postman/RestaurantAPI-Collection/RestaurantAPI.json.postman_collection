@@ -1,0 +1,409 @@
+{
+	"id": "35e64bec-4773-0cbe-99ea-3b37dbc1dba3",
+	"name": "RestaurantAPI",
+	"description": "",
+	"order": [
+		"89ee8352-a687-aec4-c2b2-542c4ef5f54d",
+		"5b2770b0-9c1a-7b45-03ab-f32ac9ef105b",
+		"e171d9ba-5455-c3ea-392d-5badc77ea24d",
+		"734357cd-3fd0-f64b-3135-9cc1f9d905ed",
+		"0ebe59b0-cfcc-694d-7b1d-ce59010cf315",
+		"d014a281-93e5-ba14-36d0-a8b258ba6383",
+		"b749c573-e8ad-5b9a-ac3a-7184cf09110f",
+		"41cb4ec8-6420-e617-aba1-ef28e602f770",
+		"2f8b990f-34f0-c99d-fe3f-0715c8d94b32",
+		"8ea8d2a7-4a0d-e4a9-97ae-faafaf993dde",
+		"5f87b81a-127c-9851-32d8-5650f27da46d"
+	],
+	"folders": [],
+	"timestamp": 1416065077540,
+	"synced": false,
+	"remoteLink": "",
+	"requests": [
+		{
+			"id": "0ebe59b0-cfcc-694d-7b1d-ce59010cf315",
+			"headers": "",
+			"url": "http://{{Url}}/restaurant/create",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "POST",
+			"data": [
+				{
+					"key": "name",
+					"value": "McDonald's",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "latitude",
+					"value": "24.05435",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "longitude",
+					"value": "35.23853",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "apiToken",
+					"value": "6d507f30-7f0a-11e4-8ba5-fd35489b8ea0",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"dataMode": "params",
+			"version": 2,
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1418064436439,
+			"name": "Create Restaurant",
+			"description": "",
+			"collectionId": "35e64bec-4773-0cbe-99ea-3b37dbc1dba3",
+			"synced": false
+		},
+		{
+			"id": "2f8b990f-34f0-c99d-fe3f-0715c8d94b32",
+			"headers": "",
+			"url": "http://{{Url}}/user",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "GET",
+			"data": [],
+			"dataMode": "params",
+			"version": 2,
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1418050784154,
+			"name": "Lists Users",
+			"description": "",
+			"collectionId": "35e64bec-4773-0cbe-99ea-3b37dbc1dba3",
+			"responses": [],
+			"synced": false
+		},
+		{
+			"id": "41cb4ec8-6420-e617-aba1-ef28e602f770",
+			"headers": "",
+			"url": "http://{{Url}}:{{Port}}/user/login",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "POST",
+			"data": [
+				{
+					"key": "phone",
+					"value": "2154591234",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "password",
+					"value": "password1",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"dataMode": "params",
+			"version": 2,
+			"tests": "tests[\"Body has apiToken\"] = responseBody.has(\"apiToken\");",
+			"time": 1417201417526,
+			"name": "Admin Login",
+			"description": "",
+			"collectionId": "35e64bec-4773-0cbe-99ea-3b37dbc1dba3",
+			"synced": false
+		},
+		{
+			"id": "5b2770b0-9c1a-7b45-03ab-f32ac9ef105b",
+			"headers": "",
+			"url": "http://{{Url}}/user/newAdmin",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "POST",
+			"data": [
+				{
+					"key": "phone",
+					"value": "2154590332",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "password",
+					"value": "password",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "role",
+					"value": "admin",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "apiToken",
+					"value": "2d1078e0-772f-11e4-8ed8-37ae36069fcf",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"dataMode": "params",
+			"version": 2,
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1418050816181,
+			"name": "Create new admin",
+			"description": "",
+			"collectionId": "35e64bec-4773-0cbe-99ea-3b37dbc1dba3",
+			"responses": [],
+			"synced": false
+		},
+		{
+			"id": "5f87b81a-127c-9851-32d8-5650f27da46d",
+			"headers": "",
+			"url": "http://{{Url}}/token",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "GET",
+			"data": [
+				{
+					"key": "phone",
+					"value": "2154590332",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "password",
+					"value": "password",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"dataMode": "params",
+			"version": 2,
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1418068453240,
+			"name": "Lists Tokens",
+			"description": "",
+			"collectionId": "35e64bec-4773-0cbe-99ea-3b37dbc1dba3",
+			"responses": [],
+			"synced": false
+		},
+		{
+			"id": "734357cd-3fd0-f64b-3135-9cc1f9d905ed",
+			"headers": "",
+			"url": "http://{{Url}}:{{Port}}/item",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "POST",
+			"data": [
+				{
+					"key": "name",
+					"value": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "price",
+					"value": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "description",
+					"value": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "image",
+					"value": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "restaurant",
+					"value": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "tags",
+					"value": "CSV",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "ingredients",
+					"value": "CSV",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"dataMode": "params",
+			"version": 2,
+			"tests": "",
+			"time": 1417145124860,
+			"name": "Create Item",
+			"description": "",
+			"collectionId": "35e64bec-4773-0cbe-99ea-3b37dbc1dba3",
+			"synced": false
+		},
+		{
+			"id": "89ee8352-a687-aec4-c2b2-542c4ef5f54d",
+			"headers": "",
+			"url": "http://{{Url}}/user/new",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "POST",
+			"data": [
+				{
+					"key": "phone",
+					"value": "2154590332",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "password",
+					"value": "password1",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "role",
+					"value": "user",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"dataMode": "params",
+			"version": 2,
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1418064910527,
+			"name": "Create user",
+			"description": "",
+			"collectionId": "35e64bec-4773-0cbe-99ea-3b37dbc1dba3",
+			"responses": [],
+			"synced": false
+		},
+		{
+			"id": "8ea8d2a7-4a0d-e4a9-97ae-faafaf993dde",
+			"headers": "",
+			"url": "http://{{Url}}:{{Port}}/restaurant",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "GET",
+			"data": [
+				{
+					"key": "phone",
+					"value": "2154590332",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "password",
+					"value": "jesse2014",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"dataMode": "params",
+			"version": 2,
+			"tests": "",
+			"time": 1417145096253,
+			"name": "Lists Restaurants",
+			"description": "",
+			"collectionId": "35e64bec-4773-0cbe-99ea-3b37dbc1dba3",
+			"responses": [],
+			"synced": false
+		},
+		{
+			"id": "b749c573-e8ad-5b9a-ac3a-7184cf09110f",
+			"headers": "",
+			"url": "http://{{Url}}/user",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "POST",
+			"data": [
+				{
+					"key": "apiToken",
+					"value": "e17e1fa0-7ee4-11e4-929c-7d68905d435e",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"dataMode": "params",
+			"version": 2,
+			"tests": "tests[\"Body has apiToken\"] = responseBody.has(\"apiToken\");",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1418052868373,
+			"name": "User by apiToken",
+			"description": "",
+			"collectionId": "35e64bec-4773-0cbe-99ea-3b37dbc1dba3",
+			"synced": false
+		},
+		{
+			"id": "d014a281-93e5-ba14-36d0-a8b258ba6383",
+			"headers": "",
+			"url": "http://{{Url}}/user/login",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "POST",
+			"data": [
+				{
+					"key": "phone",
+					"value": "2154590332",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "password",
+					"value": "password",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"dataMode": "params",
+			"version": 2,
+			"tests": "tests[\"Body has apiToken\"] = responseBody.has(\"apiToken\");",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1418050796936,
+			"name": "User Login",
+			"description": "",
+			"collectionId": "35e64bec-4773-0cbe-99ea-3b37dbc1dba3",
+			"synced": false
+		},
+		{
+			"id": "e171d9ba-5455-c3ea-392d-5badc77ea24d",
+			"headers": "",
+			"url": "http://{{Url}}:{{Port}}/ingredents/create",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "POST",
+			"data": [
+				{
+					"key": "name",
+					"value": "tomatos",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"dataMode": "params",
+			"version": 2,
+			"tests": "",
+			"time": 1417145139241,
+			"name": "Create Ingredent",
+			"description": "",
+			"collectionId": "35e64bec-4773-0cbe-99ea-3b37dbc1dba3",
+			"responses": [],
+			"synced": false
+		}
+	]
+}
