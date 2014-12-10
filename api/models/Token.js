@@ -3,11 +3,12 @@ module.exports = {
     attributes: {
         apiToken: {
             type: 'string',
+            size: 60,            // storage optimization for mysql
             primaryKey: true
         },
         expiresAt: {
-            type: 'integer',
-            size: 20  // required for sql dbs, since int(11) is only 32bits
+            type: 'string',
+            size: 20             // Waterline ORM 'integer' is int(11) mysql hence string aka varchar(20)
         },
         loggedUser: {
             model: 'user'

@@ -10,6 +10,7 @@ module.exports = {
     attributes: {
         name: {
             type: 'string',
+            size: 35,
             required: true,
         },
         latitude: {
