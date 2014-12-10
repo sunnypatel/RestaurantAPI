@@ -9,13 +9,14 @@ module.exports = {
 
     attributes: {
         name: {
-            type: 'string'
+            type: 'string',
+            size: 35
         },
         price: {
             type: 'float'
         },
         description: {
-            type: 'string'
+            type: 'text'
         },
         image: {
             type: 'string'

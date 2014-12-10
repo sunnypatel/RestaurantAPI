@@ -10,15 +10,18 @@ module.exports = {
   attributes: {
     phone: {
       type: 'string',
+      size: 15,
       required: true,
       unique: true
     },
     password: {
       type: 'string',
+      size: 60,
       required: true
     },
     role: {
       type: 'string',
+      size: 10,
       enum: ['admin', 'restaurant', 'user']
     },
     apiToken: {

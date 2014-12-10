@@ -10,7 +10,8 @@ module.exports = {
     autoUpdatedAt: false,
     attributes: {
         name: {
-            type: 'string'
+            type: 'string',
+            size: 35
         },
         items: {
             collection: 'Item',
