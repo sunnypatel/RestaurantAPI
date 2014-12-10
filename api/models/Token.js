@@ -6,7 +6,8 @@ module.exports = {
             primaryKey: true
         },
         expiresAt: {
-            type: 'integer'
+            type: 'integer',
+            size: 20  // required for sql dbs, since int(11) is only 32bits
         },
         loggedUser: {
             model: 'user'
