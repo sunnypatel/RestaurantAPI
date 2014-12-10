@@ -13,7 +13,7 @@ module.exports = {
         .then(function (tokenObj){
             console.log(TAG + "Token object found");
             var now = new Date().getTime();
-            if (now > tokenObj.expiresAt)
+            if (now > parseInt(tokenObj.expiresAt))
                 return true;
             else
                 return false;
