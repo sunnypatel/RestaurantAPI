@@ -4,10 +4,12 @@
 * @description :: Server-side logic for managing Restaurant
 * @help        :: See http://links.sailsjs.org/docs/controllers
 */
+var log = require('captains-log')();
 var CTAG = "RestaurantController";
+
 module.exports = {
 	create: function(req, res){
-		var TAG = CTAG + "(create) ";
+		var TAG = CTAG + "(create): ";
 		var name = req.param('name');
 		var longitude = req.param('longitude');
 		var latitude = req.param('latitude');
@@ -15,7 +17,7 @@ module.exports = {
 
 		if (!owner)
 			owner = req.session.userId;
-		console.log(TAG + 'Attempting to create new restaurant: ' + name);
+		log.info(TAG + 'Attempting to create new restaurant: ' + name);
 
 		Restaurant.create({
 			name: name,
@@ -23,12 +25,16 @@ module.exports = {
 			latitude: latitude,
 			owners: owner
 		}).exec(function createCB(err, created){
-			console.log(TAG + 'Restaurant created: ' + created.name);
+			if (err) {
+				log.error(TAG + "Restaurant create failed: " + err);
+				res.status(500).send({error: TAG + "Restaurant create failed"});
+			}
+			log.info(TAG + 'Restaurant created: ' + created.name);
 			res.send(created);
 		})
 	},
 	edit: function(req, res) {
-		var TAG + CTAG + "(edit)";
+		var TAG = CTAG + "(edit): ";
 		var name = req.param('name');
 		var longitude = req.param('longitude');
 		var latitude = req.param('latitude');
@@ -42,7 +48,7 @@ module.exports = {
 			latitude: latitude
 		})
 		.then(function (updated){
-			console.log(TAG + "Updated Restaurant("+id+") by User("+req.session.userId+")");
+			log.info(TAG + "Updated Restaurant("+id+") by User("+req.session.userId+")");
 			res.send(updated);
 		})
 	}

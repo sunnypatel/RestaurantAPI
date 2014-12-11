@@ -1,6 +1,6 @@
+var log = require('captains-log')();
 var CTAG = "TokenService: ";
 var expiresAfterMin = 60;
-
 
 module.exports = {
     /**
@@ -13,18 +13,18 @@ module.exports = {
             apiToken: apiToken
         })
         .then(function (tokenObj){
-            console.log(TAG + "Token object found");
+            log.info(TAG + "Token object found");
             var now = new Date().getTime();
             if (now > parseInt(tokenObj.expiresAt)) {
-                console.log(TAG + "Expired token");
+                log.info(TAG + "Expired token");
                 return true;
             } else {
-                console.log(TAG + "Valid token");
+                log.info(TAG + "Valid token");
                 return false;
             }
         })
         .catch(function (err){
-            console.log(TAG + "isExpired: Token object not found, err:" + err);
+            log.error(TAG + "isExpired: Token object not found, err:" + err);
             throw new Error(TAG + "isExpired: Token object not found, err:" + err);
         });
     },
@@ -39,11 +39,11 @@ module.exports = {
             expiresAt: expiresAt
         })
         .then(function (created){
-            console.log(TAG + "Generated new token");
+            log.info(TAG + "Generated new token");
             return created;
         })
         .catch(function (err){
-            console.log(TAG + 'Error generateToken: ' + err);
+            log.error(TAG + 'Error generateToken: ' + err);
             throw new Error(TAG + 'Error generateToken: ' + err);
         });
     },
@@ -59,11 +59,11 @@ module.exports = {
         Token.update({apiToken:oldApiToken},newToken)
         .exec(function(err, updated){
             if (err) {
-                console.log("Token not updated");
-                console.log(err);
+                log.error("Token not updated");
+                log.error(err);
             } else {
-                console.log("Token uupdated");
-                console.log(updated);
+                log.info("Token updated");
+                log.info(updated);
             }
         })
     },

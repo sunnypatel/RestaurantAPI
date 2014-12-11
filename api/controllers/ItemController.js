@@ -4,6 +4,7 @@
  * @description :: Server-side logic for managing Items
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
+var log = require('captains-log')();
 var CTAG = "ItemController";
 
 module.exports = {
@@ -21,7 +22,7 @@ module.exports = {
 		// split tags, ingredients by comma
 		//tags = tags.split(",");
 		//ingredients = ingredients.split(",");
-		console.log(TAG + 'Attempting to create item, for restaurant:' + restaurantId);
+		log.info(TAG + 'Attempting to create item, for restaurant:' + restaurantId);
 		Item.create({
 			name: name,
 			price: price,
@@ -30,7 +31,7 @@ module.exports = {
 			image: image
 		})
 		.then(function (created){
-			console.log(TAG + "Created new item");
+			log.info(TAG + "Created new item");
 		/*	tags.forEach(function(tag){
 				created.tags.add(tag);
 			});
