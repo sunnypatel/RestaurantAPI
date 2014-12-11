@@ -4,10 +4,11 @@
  * @description :: Server-side logic for managing Items
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
-var TAG = "ItemController: ";
+var CTAG = "ItemController";
 
 module.exports = {
 	create: function(req, res){
+		var TAG = CTAG + "(create) ";
 		var restaurantId = req.param('restaurantId');
 		if (!restaurantId) { return res.json({error: 'Required field missing'}); }
 		var name = req.param('name');

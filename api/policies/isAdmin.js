@@ -1,4 +1,4 @@
-var TAG = "Policy isAdmin: ";
+var TAG = "Policy(isAdmin) ";
 module.exports = function isAdmin (req, res, next) {
     User.findOne({id: req.session.userId})
     .then(function (found){

@@ -1,4 +1,4 @@
-var TAG = "Policy isRestaurant: ";
+var TAG = "Policy(isRestaurant) ";
 module.exports = function isRestaurant (req, res, next) {
     console.log(TAG + "Checking if user is restaurant");
     User.findOne({id:req.session.userId})

@@ -1,4 +1,4 @@
-var TAG = "Policy: isLoggedIn: ";
+var TAG = "Policy(isLoggedIn) ";
 
 module.exports = function isLoggedIn (req, res, next) {
     console.log(TAG + "User loggedIn check");

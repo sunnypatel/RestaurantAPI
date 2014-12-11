@@ -1,7 +1,7 @@
-var TAG = "Policy isTheRestaurantOwner: ";
+var TAG = "Policy(isTheRestaurantOwner) ";
 module.exports = function isTheRestaurantOwner (req, res, next) {
     var restaurantId = req.param('restaurantId');
-    console.log(TAG + "Checking if user owns this restaurant("+restaurantId+")");
+    console.log(TAG + "Checks for Restaurant("+restaurantId+")");
     User.findOne({id: req.session.userId})
     .populate('ownsRestaurants',{id:parseInt(restaurantId)})
     .then(function (found){

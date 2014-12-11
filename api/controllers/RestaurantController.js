@@ -4,9 +4,10 @@
 * @description :: Server-side logic for managing Restaurant
 * @help        :: See http://links.sailsjs.org/docs/controllers
 */
-var TAG = "RestaurantController: ";
+var CTAG = "RestaurantController";
 module.exports = {
 	create: function(req, res){
+		var TAG = CTAG + "(create) ";
 		var name = req.param('name');
 		var longitude = req.param('longitude');
 		var latitude = req.param('latitude');
@@ -27,6 +28,7 @@ module.exports = {
 		})
 	},
 	edit: function(req, res) {
+		var TAG + CTAG + "(edit)";
 		var name = req.param('name');
 		var longitude = req.param('longitude');
 		var latitude = req.param('latitude');
