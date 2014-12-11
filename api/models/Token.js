@@ -3,7 +3,6 @@ module.exports = {
     attributes: {
         apiToken: {
             type: 'string',
-        //    size: 60,            // storage optimization for mysql
             primaryKey: true
         },
         expiresAt: {
@@ -12,6 +11,9 @@ module.exports = {
         },
         loggedUser: {
             model: 'user'
+        },
+        isExpired: {
+            type: 'Boolean'
         }
     }
 };

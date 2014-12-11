@@ -4,10 +4,11 @@
  * @description :: Server-side logic for managing users
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
-var TAG = "UserController: ";
+var CTAG = "UserController";
 
 module.exports = {
 	login: function (req, res) {
+		TAG = CTAG + '(Login) ';
 		var bcrypt = require('bcrypt');
 		var uuid = require('node-uuid');
 
@@ -18,56 +19,59 @@ module.exports = {
 				if (err) res.json({ error: 'DB error' }, 500);
 
 				if (user) {
-					return bcrypt.compare(req.body.password, user.password, function (err, match) {
-						console.log(TAG + "Attempting login user: " + user.id);
-						// TODO: Should create a new apiToken everytime?
+					bcrypt.compare(req.body.password, user.password, function (err, match) {
+						console.log(TAG + "Attempting login user("+user.id+")");
 						if (err) res.json({ error: 'Server error' }, 500);
 
 						if (match) {
 							// password match
-							console.log(TAG + "User(" + user.id + ") password check passed");
-							console.log("Token: " + user.apiToken);
+							console.log(TAG + "User("+user.id+") password check passed");
+
 							TokenService.isExpired(user.apiToken)
 							.then(function (isExpired){
-								console.log(TAG + "Token expired: " + isExpired);
-								if (!isExpired) {
-									console.log(TAG + "Everything checks out, heres ur token");
+								if (isExpired) {
+									// token is expired
+									console.log(TAG + "Token is expired");
+									throw new Error('Expired Token');
+								} else {
 									req.session.userId = user.id;
-									return res.json({
+									// token not expired send old one
+									res.json({
 										apiToken: user.apiToken
-									})
-								}
-								else {
-									console.log(TAG + "Attempting to create new token");
-									return TokenService.generateToken()
-									.then(function (tokenObj) {
-										console.log(TAG + "Received new token");
-										// created new token
-										req.session.userId = user.id;
-										return User.update({id: user.id}, {apiToken: tokenObj.apiToken})
-										.then(function(updated) {
-											return updated;
-										})
-										.catch(function(err){
-											// Failed updating user's apiToken
-											console.log(TAG + "Failed assigning token to user");
-											res.send(500, { err: err });
-										});
-									})
-									.spread(function(updated){
-										console.log(TAG + "Logged in user: " + updated);
-										return res.json({
-											apiToken: updated.apiToken
-										});
-									})
-									.catch(function (err){
-										console.log(TAG + "Generating token failed, err: " + err);
-									})
+									});
+									// Fulfill your promise man!
+									return user.apiToken;
 								}
 							})
 							.catch(function (err) {
-								console.log(TAG + 'Token expired check failed, err: ' + err);
-							});
+								// Token expired or not found, either way create a new token
+								TokenService.createTokenObj()
+								.then(function (tokenObj) {
+									// created new token obj
+									console.log(TAG + "Received new tokenObj");
+									user.apiToken = tokenObj.apiToken;
+									user.save(function(err){
+										if (err)
+											console.log(TAG + "Unable to update user token, err:" + err);
+										else
+											console.log(TAG + "Updated user with new token");
+									});
+
+									tokenObj.loggedUser = user.id;
+									tokenObj.save(function(err){
+										if (err)
+											console.log(TAG + "Unable to update Token.loggedUser, err:" + err);
+										else
+											console.log(TAG + "Updated token with userId");
+									});
+									req.session.userId = user.id;
+									res.json({apiToken: user.apiToken}, 200);
+								})
+								.catch(function(err){
+									console.log("Something went wrong");
+									res.json({err: err}, 500);
+								})
+							})
 						} else {
 							if (req.session.userId) req.session.userId = null;
 							res.json({ error: 'Invalid password' }, 400);
@@ -81,6 +85,7 @@ module.exports = {
 
 	},
 	new: function(req, res){
+		var TAG = CTAG + "(new) ";
 		console.log(TAG + "Creating new user");
 		var phone = req.param('phone');
 		var password = req.param('password');
@@ -89,7 +94,7 @@ module.exports = {
 		if (role=='admin' || !phone || !password) {
 			res.send(500, {error: 'Missing fields'});
 		} else {
-			TokenService.generateToken()
+			TokenService.createTokenObj()
 			.then(function (tokenObj){
 				console.log(TAG + "Created new token");
 				User.create({
@@ -116,7 +121,7 @@ module.exports = {
 		}
 	},
 	newAdmin: function(req, res) {
-		console.log(TAG + "Creating new admin");
+		var TAG = CTAG + "(newAdmin) ";
 		var phone = req.param('phone');
 		var password = req.param('password');
 		var role = req.param('role');
@@ -124,9 +129,9 @@ module.exports = {
 		if (!phone || !password) {
 			res.send(401);
 		} else {
-			TokenService.generateToken()
+			TokenService.createTokenObj()
 			.then(function (tokenObj){
-				console.log(TAG + "Created new token");
+				console.log(TAG + "Received new token");
 				User.create({
 					phone: phone,
 					password: password,
@@ -137,6 +142,7 @@ module.exports = {
 					if (err) {
 						console.log(TAG + "Error " + err);
 						res.json({error: err}, 500);
+						throw new Error("Creating new user failed");
 					} else if (!err && created) {
 						res.send(created);
 					} else {
@@ -151,7 +157,7 @@ module.exports = {
 		}
 	},
 	apiToken: function(req, res) {
-		console.log(TAG + '/apiToken');
+		var TAG = CTAG + "(apiToken) ";
 		var apiToken = req.param('apiToken');
 		if (!apiToken) {
 			console.log(TAG + "Missing fields");
