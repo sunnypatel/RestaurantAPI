@@ -9,6 +9,7 @@
 		"734357cd-3fd0-f64b-3135-9cc1f9d905ed",
 		"87086eb8-215e-d57d-98aa-39f0ae81f608",
 		"0ebe59b0-cfcc-694d-7b1d-ce59010cf315",
+		"06f9f3c3-73d4-f34b-1cb6-9eccc74d0b73",
 		"d014a281-93e5-ba14-36d0-a8b258ba6383",
 		"b749c573-e8ad-5b9a-ac3a-7184cf09110f",
 		"41cb4ec8-6420-e617-aba1-ef28e602f770",
@@ -23,6 +24,39 @@
 	"synced": false,
 	"remoteLink": "",
 	"requests": [
+		{
+			"id": "06f9f3c3-73d4-f34b-1cb6-9eccc74d0b73",
+			"headers": "",
+			"url": "http://{{Url}}/location/near",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "POST",
+			"data": [
+				{
+					"key": "latitude",
+					"value": "39.93842048",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "longitude",
+					"value": "28.43834843",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"dataMode": "params",
+			"version": 2,
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1418351519284,
+			"name": "Find Restaurant by Location",
+			"description": "",
+			"collectionId": "35e64bec-4773-0cbe-99ea-3b37dbc1dba3",
+			"responses": [],
+			"synced": false
+		},
 		{
 			"id": "0ebe59b0-cfcc-694d-7b1d-ce59010cf315",
 			"headers": "",
