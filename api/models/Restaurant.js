@@ -21,6 +21,9 @@ module.exports = {
             type: 'float',
             defaultsTo: -75.1850 // Drexel's 31st and Market
         },
+        location: {
+            model: 'location'
+        },
         items: {
             collection: 'item',
             via: 'restaurantId'
