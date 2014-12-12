@@ -36,6 +36,9 @@ module.exports.policies = {
   },
   ItemController: {
       create: ['isLoggedIn', 'isRestaurant', 'isTheRestaurantOwner']
+  },
+  OrderController: {
+      create: ['isLoggedIn']
   }
   /***************************************************************************
   *                                                                          *

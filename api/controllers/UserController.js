@@ -13,18 +13,22 @@ module.exports = {
 		var bcrypt = require('bcrypt');
 		var uuid = require('node-uuid');
 		var phone = req.body.phone;
-		if (!phone || !req.body.password)
-			res.send(401, {error: 'Missing fields'});
+		if (!phone || !req.body.password) {
+			log.error(TAG + "Missing required fields");
+			res.send(401);
+		}
 		else {
 			User.findOneByPhone(phone).exec(function (err, user) {
-				if (err) res.json({ error: 'DB error' }, 500);
-
-				if (user) {
+				if (err) {
+					log.error(TAG + "User phone not found");
+					res.send(401);
+				}
+				else if (user) {
 					bcrypt.compare(req.body.password, user.password, function (err, match) {
 						log.info(TAG + "Attempting login user("+user.id+")");
 						if (err) res.json({ error: 'Server error' }, 500);
 
-						if (match) {
+						else if (match) {
 							// password match
 							log.info(TAG + "User("+user.id+") password check passed");
 
@@ -53,7 +57,7 @@ module.exports = {
 									user.apiToken = tokenObj.apiToken;
 									user.save(function(err){
 										if (err)
-											log.info(TAG + "Unable to update user token, err:" + err);
+											log.error(TAG + "Unable to update user token, err:" + err);
 										else
 											log.info(TAG + "Updated user with new token");
 									});
@@ -61,7 +65,7 @@ module.exports = {
 									tokenObj.loggedUser = user.id;
 									tokenObj.save(function(err){
 										if (err)
-											log.info(TAG + "Unable to update Token.loggedUser, err:" + err);
+											log.error(TAG + "Unable to update Token.loggedUser, err:" + err);
 										else
 											log.info(TAG + "Updated token with userId");
 									});
@@ -70,22 +74,21 @@ module.exports = {
 								})
 								.catch(function(err){
 									log.error("Something went wrong, err:" + err);
-									res.json({err: err}, 500);
+									res.send(500);
 								})
 							})
 						} else {
 							if (req.session.userId) req.session.userId = null;
 							log.error(TAG + "Login attempt phone("+phone+"), invalid password");
-							res.json({ error: 'Invalid password' }, 400);
+							res.send(401);
 						}
 					});
 				} else {
 					log.error(TAG + "Login attempt phone("+phone+"), not found");
-					res.json({ error: 'User not found, password check failed' }, 404);
+					res.send(401);
 				}
 			});
 		}
-
 	},
 	new: function(req, res){
 		var TAG = CTAG + "(new): ";
@@ -96,7 +99,7 @@ module.exports = {
 
 		if (role=='admin' || !phone || !password) {
 			log.error(TAG + "Missing fields");
-			res.send(500, {error: 'Missing fields'});
+			res.send(500);
 		} else {
 			TokenService.createTokenObj()
 			.then(function (tokenObj){
@@ -109,7 +112,7 @@ module.exports = {
 				})
 				.exec(function cb(err, created){
 					if (err) {
-						log.info(TAG + "Error " + err);
+						log.error(TAG + "Error " + err);
 						res.json({error: err}, 500);
 					} else if (!err && created) {
 						res.send(created);
@@ -144,7 +147,7 @@ module.exports = {
 				})
 				.exec(function cb(err, created){
 					if (err) {
-						log.info(TAG + "Error " + err);
+						log.error(TAG + "Error " + err);
 						res.json({error: err}, 500);
 						throw new Error("Creating new user failed");
 					} else if (!err && created) {
@@ -186,13 +189,13 @@ module.exports = {
 						// user is valid
 						return res.send(200, found);
 					} else {
-						log.info(TAG + "User not found or token mismatch");
+						log.error(TAG + "User not found or token mismatch");
 						// token not found or expired
 						return res.send(401);
 					}
 				})
 				.catch(function (err){
-					log.info(TAG + "Token isExpired check failed, err: " + err);
+					log.error(TAG + "Token isExpired check failed, err: " + err);
 					return res.send(500);
 				})
 			})

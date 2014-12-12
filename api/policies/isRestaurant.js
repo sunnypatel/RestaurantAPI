@@ -7,7 +7,8 @@ module.exports = function isRestaurant (req, res, next) {
     .then(function (found){
         if (found.role != 'restaurant' && found.role != 'admin') {
             // user is not restaurant
-            log.info(TAG + "Access denied to non-restaurant, role="+found.role);
+            log.error(TAG + "Access denied to non-restaurant, role="+found.role);
+            throw new Error(TAG + "Access denied to non-restaurant, role="+found.role);
             return res.send(401);
         } else {
             // user is restaurant
