@@ -10,7 +10,7 @@ var CTAG = "ItemController";
 module.exports = {
 	create: function(req, res){
 		var TAG = CTAG + "(create) ";
-		var restaurantId = req.param('restaurantId');
+		var restaurant = req.param('restaurant');
 		if (!restaurantId) { return res.json({error: 'Required field missing'}); }
 		var name = req.param('name');
 		var price = req.param('price');
@@ -27,7 +27,7 @@ module.exports = {
 			name: name,
 			price: price,
 			description: description,
-			restaurant: restaurantId,
+			restaurant: restaurant,
 			image: image
 		})
 		.then(function (created){

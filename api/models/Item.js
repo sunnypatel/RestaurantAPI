@@ -21,7 +21,7 @@ module.exports = {
         image: {
             type: 'string'
         },
-        restaurant: {
+        restaurantId: {
             model: 'restaurant',
             required: true
         },
@@ -31,6 +31,10 @@ module.exports = {
         },
         ingredients: {
             collection: 'ingredients',
+            via: 'items'
+        },
+        orders: {
+            collection: 'Order',
             via: 'items'
         }
     }
