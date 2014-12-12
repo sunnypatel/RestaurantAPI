@@ -266,71 +266,23 @@
 		},
 		{
 			"id": "734357cd-3fd0-f64b-3135-9cc1f9d905ed",
-			"headers": "",
+			"headers": "Content-Type: application/json\n",
 			"url": "http://{{Url}}/item",
 			"preRequestScript": "",
 			"pathVariables": {},
 			"method": "POST",
-			"data": [
-				{
-					"key": "name",
-					"value": "McBurger",
-					"type": "text",
-					"enabled": true
-				},
-				{
-					"key": "price",
-					"value": "2.50",
-					"type": "text",
-					"enabled": true
-				},
-				{
-					"key": "description",
-					"value": "Fat ass burger",
-					"type": "text",
-					"enabled": true
-				},
-				{
-					"key": "image",
-					"value": "",
-					"type": "text",
-					"enabled": true
-				},
-				{
-					"key": "restaurant",
-					"value": "1",
-					"type": "text",
-					"enabled": true
-				},
-				{
-					"key": "tags",
-					"value": "CSV",
-					"type": "text",
-					"enabled": true
-				},
-				{
-					"key": "ingredients",
-					"value": "CSV",
-					"type": "text",
-					"enabled": true
-				},
-				{
-					"key": "apiToken",
-					"value": "fac44d00-8190-11e4-92a0-890bac9daecc",
-					"type": "text",
-					"enabled": true
-				}
-			],
-			"dataMode": "params",
+			"data": [],
+			"dataMode": "raw",
 			"version": 2,
 			"tests": "",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1418343592244,
+			"time": 1418347976419,
 			"name": "Create Item",
 			"description": "",
 			"collectionId": "35e64bec-4773-0cbe-99ea-3b37dbc1dba3",
-			"synced": false
+			"synced": false,
+			"rawModeData": "{\n  \"name\": \"Fries\",\n  \"price\": 1.50,\n  \"description\": \"Unsalted potato fries\",\n  \"image\": \"\",\n  \"restaurantId\": 1,\n  \"tags\": [],\n  \"ingredients\": [],\n  \"apiToken\": \"aec7c0e0-819e-11e4-bf2e-bdaa8546a0c7\"\n}"
 		},
 		{
 			"id": "87086eb8-215e-d57d-98aa-39f0ae81f608",
@@ -345,12 +297,12 @@
 			"tests": "",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1418343582629,
+			"time": 1418348118329,
 			"name": "Create Order",
 			"description": "",
 			"collectionId": "35e64bec-4773-0cbe-99ea-3b37dbc1dba3",
 			"synced": false,
-			"rawModeData": "{\n  \"totalSale\": 23,\n  \"totalSalesTax\": 2.35,\n  \"paid\": true,\n  \"confirmed\": false,\n  \"restaurant\": 1,\n  \"items\": [\n    {\"id\": 1},\n    {\"id\": 2}\n  ]\n}"
+			"rawModeData": "{\n  \"apiToken\": \"aec7c0e0-819e-11e4-bf2e-bdaa8546a0c7\",\n  \"totalSale\": 23,\n  \"totalSalesTax\": 2.35,\n  \"paid\": true,\n  \"confirmed\": false,\n  \"restaurant\": 1,\n  \"items\": [\n    {\"id\": 1},\n    {\"id\": 2},\n    {\"id\": 3}\n  ]\n}"
 		},
 		{
 			"id": "89ee8352-a687-aec4-c2b2-542c4ef5f54d",
