@@ -10,36 +10,33 @@ var CTAG = "ItemController";
 module.exports = {
 	create: function(req, res){
 		var TAG = CTAG + "(create) ";
-		var restaurant = req.param('restaurant');
+		var restaurantId = req.body.restaurantId;
 		if (!restaurantId) { return res.json({error: 'Required field missing'}); }
-		var name = req.param('name');
-		var price = req.param('price');
-		var description = req.param('description');
-		var image = req.param('image');
-		var tags = req.param('tags');  // SHOULD BE A CSV OF ALL TAGS' IDS
-		var ingredients = req.param('ingredients');
+		var name = req.body.name;
+		var price = req.body.price;
+		var description = req.body.description;
+		var image = req.body.image;
+		var tags = req.body.tags;
+		var ingredients = req.body.ingredients;
 
-		// split tags, ingredients by comma
-		//tags = tags.split(",");
-		//ingredients = ingredients.split(",");
+
 		log.info(TAG + 'Attempting to create item, for restaurant:' + restaurantId);
 		Item.create({
 			name: name,
 			price: price,
 			description: description,
-			restaurant: restaurant,
-			image: image
+			restaurantId: restaurantId,
+			image: image,
+			tags: tags,
+			ingredients: ingredients
 		})
 		.then(function (created){
 			log.info(TAG + "Created new item");
-		/*	tags.forEach(function(tag){
-				created.tags.add(tag);
-			});
-			ingredients.forEach(function(ingredient){
-				created.ingredients.add(ingredient);
-			});
-			*/
 			res.send(200, created);
+		})
+		.catch(function (err) {
+			log.error(TAG + "Error creating new item: " + err);
+			res.send(500);
 		})
 	}
 };

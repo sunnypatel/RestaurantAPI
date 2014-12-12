@@ -16,7 +16,7 @@ module.exports = {
 		var salesTax = req.body.salesTax;
 		var paid = req.body.paid;
 		var confirmed = req.body.confirmed;
-		var restaurant = req.body.restaurant;
+		var restaurantId = req.body.restaurantId;
 		var items = req.body.items;
 
 		Order.create({
@@ -25,7 +25,7 @@ module.exports = {
 			salesTax: salesTax,
 			paid: paid,
 			confirmed: confirmed,
-			restaurant: restaurant,
+			restaurantId: restaurantId,
 			items: items
 		})
 		.then(function (created){

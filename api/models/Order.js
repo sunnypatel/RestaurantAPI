@@ -30,7 +30,7 @@ module.exports = {
           collection: 'item',
           via: 'orders'
       },
-      restaurant: {
+      restaurantId: {
           model: 'restaurant'
       }
   }
