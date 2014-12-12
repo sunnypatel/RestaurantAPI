@@ -37,6 +37,9 @@ module.exports.policies = {
   ItemController: {
       create: ['isLoggedIn', 'isRestaurant', 'isTheRestaurantOwner']
   }
+  OrderController: {
+      create: ['isLoggedIn']
+  }
   /***************************************************************************
   *                                                                          *
   * Here's an example of mapping some policies to run before a controller    *
