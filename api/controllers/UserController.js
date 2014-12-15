@@ -28,7 +28,7 @@ module.exports = {
 						log.info(TAG + "Attempting login user("+user.id+")");
 						if (err) res.json({ error: 'Server error' }, 500);
 
-						else if (match) {
+						if (match) {
 							// password match
 							log.info(TAG + "User("+user.id+") password check passed");
 
@@ -39,7 +39,8 @@ module.exports = {
 									log.info(TAG + "Token is expired");
 									throw new Error('Expired Token');
 								} else {
-									req.session.userId = user.id;
+									log.info(TAG + "Token not expired");
+									log.info(TAG + "Moving on");
 									// token not expired send old one
 									res.json({
 										apiToken: user.apiToken
@@ -69,7 +70,6 @@ module.exports = {
 										else
 											log.info(TAG + "Updated token with userId");
 									});
-									req.session.userId = user.id;
 									res.json({apiToken: user.apiToken}, 200);
 								})
 								.catch(function(err){
@@ -78,7 +78,7 @@ module.exports = {
 								})
 							})
 						} else {
-							if (req.session.userId) req.session.userId = null;
+							if (req.session.user.id) req.session.user.id = null;
 							log.error(TAG + "Login attempt phone("+phone+"), invalid password");
 							res.send(401);
 						}

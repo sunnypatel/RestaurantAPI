@@ -28,17 +28,18 @@ module.exports.policies = {
 
   // '*': true,
   UserController: {
-      //newAdmin: ['isLoggedIn', 'isAdmin']
+      //newAdmin: ['isTokenValid', 'isAdmin']
+	  apiToken: ['isTokenValid']
   },
   RestaurantController: {
-      create: ['isLoggedIn', 'isRestaurant'],
-      edit: ['isLoggedIn', 'isRestaurant', 'isTheRestaurantOwner']
+      create: ['isTokenValid', 'isRestaurant'],
+      edit: ['isTokenValid', 'isRestaurant', 'isTheRestaurantOwner']
   },
   ItemController: {
-      create: ['isLoggedIn', 'isRestaurant', 'isTheRestaurantOwner']
+      create: ['isTokenValid', 'isRestaurant', 'isTheRestaurantOwner']
   },
   OrderController: {
-      create: ['isLoggedIn']
+      create: ['isTokenValid']
   }
   /***************************************************************************
   *                                                                          *

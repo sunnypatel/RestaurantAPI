@@ -4,7 +4,7 @@ var TAG = "Policy(isTheRestaurantOwner) ";
 module.exports = function isTheRestaurantOwner (req, res, next) {
     var restaurantId = req.param('restaurantId');
     log.info(TAG + "Checks for Restaurant("+restaurantId+")");
-    User.findOne({id: req.session.userId})
+    User.findOne({id: req.session.user.id})
     .populate('ownsRestaurants',{id:parseInt(restaurantId)})
     .then(function (found){
         if(found.ownsRestaurants.length || found.role == 'admin') {
@@ -13,12 +13,12 @@ module.exports = function isTheRestaurantOwner (req, res, next) {
         }
         else {
             // user does not own this restaurant
-            log.info(TAG + "Access denied user("+req.session.userId+") to edit restaurant("+req.param('restaurantId')+")");
+            log.info(TAG + "Access denied user("+req.session.user.id+") to edit restaurant("+req.param('restaurantId')+")");
             return res.send(401);
         }
     })
     .catch(function (err){
-        log.info(TAG + "Access denied user("+req.session.userId+") to edit restaurant("+req.param('restaurantId')+")");
+        log.info(TAG + "Access denied user("+req.session.user.id+") to edit restaurant("+req.param('restaurantId')+")");
         return res.send(401);
     });
 }
