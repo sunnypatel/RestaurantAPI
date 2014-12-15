@@ -78,7 +78,6 @@ module.exports = {
 								})
 							})
 						} else {
-							if (req.session.user.id) req.session.user.id = null;
 							log.error(TAG + "Login attempt phone("+phone+"), invalid password");
 							res.send(401);
 						}

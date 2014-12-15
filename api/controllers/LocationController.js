@@ -23,8 +23,11 @@ module.exports = {
 		});
 	},
 	test: function(req, res) {
-		Restaurant.find().exec(function(err, found){
-			res.send(200, found.length + "");
+		Restaurant.destroy().exec(function(err, killed){
+			if (!err)
+				res.send(200);
+			else (err)
+				res.send(500, err);
 		})
 	}
 };
