@@ -3,7 +3,7 @@ var TAG = "Policy(isRestaurant) ";
 
 module.exports = function isRestaurant (req, res, next) {
     log.info(TAG + "Checking if user is restaurant");
-    User.findOne({id:req.session.userId})
+    User.findOne({id:req.session.user.id})
     .then(function (found){
         if (found.role != 'restaurant' && found.role != 'admin') {
             // user is not restaurant

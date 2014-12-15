@@ -16,7 +16,7 @@ module.exports = {
 		var owner = req.param('userId');
 
 		if (!owner)
-			owner = req.session.userId;
+			owner = req.session.user.id;
 		log.info(TAG + 'Attempting to create new restaurant: ' + name);
 
 		Restaurant.create({
@@ -48,7 +48,7 @@ module.exports = {
 			latitude: latitude
 		})
 		.then(function (updated){
-			log.info(TAG + "Updated Restaurant("+id+") by User("+req.session.userId+")");
+			log.info(TAG + "Updated Restaurant("+id+") by User("+req.session.user.id+")");
 			res.send(updated);
 		})
 	}

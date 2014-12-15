@@ -2,7 +2,7 @@ var log = require('captains-log')();
 var TAG = "Policy(isAdmin) ";
 
 module.exports = function isAdmin (req, res, next) {
-    User.findOne({id: req.session.userId})
+    User.findOne({id: req.session.user.id})
     .then(function (found){
     if (found.role != 'admin') {
         // user is not admin

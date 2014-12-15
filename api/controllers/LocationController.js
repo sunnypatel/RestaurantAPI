@@ -22,7 +22,9 @@ module.exports = {
 			res.send(500);
 		});
 	},
-	test: function (req, res) {
-		log.info('asdfasd');
+	test: function(req, res) {
+		Restaurant.find().exec(function(err, found){
+			res.send(200, found.length + "");
+		})
 	}
 };
