@@ -24,6 +24,33 @@ module.exports = {
         location: {
             model: 'location'
         },
+        address: {
+            type: 'string'
+        },
+        phone: {
+            type: 'string',
+            size: 15,
+        },
+        street: {
+            type: 'string',
+            size: 10
+        },
+        city: {
+            type: 'string',
+            size: 15
+        },
+        state: {
+            type: 'string',
+            size: 3
+        },
+        zipcode: {
+            type: 'string',
+            size: 9
+        },
+        country: {
+            type: 'string',
+            size: 10
+        },
         items: {
             collection: 'item',
             via: 'restaurantId'

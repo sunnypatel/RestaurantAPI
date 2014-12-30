@@ -11,8 +11,14 @@ module.exports = {
 	create: function(req, res){
 		var TAG = CTAG + "(create): ";
 		var name = req.param('name');
-		var longitude = req.param('longitude');
-		var latitude = req.param('latitude');
+		var longitude = req.param('longitude') || "";
+		var latitude = req.param('latitude') || "";
+		var street = req.param('street') || "";
+		var city = req.param('city') || "";
+		var state = req.param('state') || "";
+		var zipcode = req.param('zipcode') || "";
+		var country = req.param('country') || "";
+		var phone = req.param('phone') || "";
 		var owner = req.param('userId');
 
 		if (!owner)
@@ -23,6 +29,12 @@ module.exports = {
 			name: name,
 			longitude: longitude,
 			latitude: latitude,
+			street: street,
+			city: city,
+			state: state,
+			zipcode: zipcode,
+			country: country,
+			phone: phone,
 			owners: owner
 		}).exec(function createCB(err, created){
 			if (err) {
