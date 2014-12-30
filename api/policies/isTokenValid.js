@@ -4,6 +4,7 @@ var TAG = "Policy(isTokenValid) ";
 module.exports = function isTokenValid (req, res, next) {
     var apiToken = req.body.apiToken || req.param('apiToken');
     if (!apiToken) {
+        log.error(TAG + "Token not found");
         res.send(401);
     }
     else {
