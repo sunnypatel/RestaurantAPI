@@ -47,7 +47,14 @@ module.exports.connections = {
     password: 'alicpn7$w9',
     database: 'restaurantAPI2'
   },
-
+  
+  stagingMysql: {
+    adapter: 'sails-mysql',
+    host: 'localhost',
+    user: 'apiStagingUser',
+    password: '5rjns82&2n$',
+    database: 'restaurantAPI_staging'
+  },
   /***************************************************************************
   *                                                                          *
   * MongoDB is the leading NoSQL database.                                   *

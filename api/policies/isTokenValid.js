@@ -1,5 +1,4 @@
 var log = require('captains-log')();
-var Promise = require('Bluebird');
 var TAG = "Policy(isTokenValid) ";
 
 module.exports = function isTokenValid (req, res, next) {
