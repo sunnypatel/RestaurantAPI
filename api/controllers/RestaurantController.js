@@ -11,6 +11,7 @@ module.exports = {
 	create: function(req, res){
 		var TAG = CTAG + "(create): ";
 		var name = req.param('name');
+		var apiToken = req.param('apiToken') || "";
 		var longitude = req.param('longitude') || "";
 		var latitude = req.param('latitude') || "";
 		var street = req.param('street') || "";
@@ -19,31 +20,35 @@ module.exports = {
 		var zipcode = req.param('zipcode') || "";
 		var country = req.param('country') || "";
 		var phone = req.param('phone') || "";
-		var owner = req.param('userId');
 
-		if (!owner)
-			owner = req.session.user.id;
-		log.info(TAG + 'Attempting to create new restaurant: ' + name);
+		TokenService.getUserByToken(apiToken)
+		.then(function(userObj){
+			log.info(TAG + 'Attempting to create new restaurant: ' + name);
 
-		Restaurant.create({
-			name: name,
-			longitude: longitude,
-			latitude: latitude,
-			street: street,
-			city: city,
-			state: state,
-			zipcode: zipcode,
-			country: country,
-			phone: phone,
-			owners: owner
-		}).exec(function createCB(err, created){
-			if (err) {
-				log.error(TAG + "Restaurant create failed: " + err);
-				res.status(500).send({error: TAG + "Restaurant create failed"});
-			}
-			log.info(TAG + 'Restaurant created: ' + created.name);
-			res.send(created);
+			Restaurant.create({
+				name: name,
+				longitude: longitude,
+				latitude: latitude,
+				street: street,
+				city: city,
+				state: state,
+				zipcode: zipcode,
+				country: country,
+				phone: phone,
+				owners: userObj.id
+			}).exec(function createCB(err, created){
+				if (err) {
+					log.error(TAG + "Restaurant create failed: " + err);
+					res.status(500).send({error: TAG + "Restaurant create failed"});
+				}
+				log.info(TAG + 'Restaurant created: ' + created.name);
+				res.send(created);
+			})
 		})
+		.catch(function(err){
+			res.send(500, err);
+		})
+
 	},
 	edit: function(req, res) {
 		var TAG = CTAG + "(edit): ";

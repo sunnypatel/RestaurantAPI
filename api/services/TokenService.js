@@ -47,6 +47,24 @@ module.exports = {
             throw new Error(TAG + 'Error generateToken: ' + err);
         });
     },
+    getUserByToken: function(apiToken) {
+        var TAG = CTAG + "(getUserByToken) ";
+        return User.findOne({
+            apiToken: apiToken
+        })
+        .then(function(userObj){
+            if(userObj) {
+                log.info(TAG + "User found via tokenObj");
+                return userObj;
+            } else {
+                log.error(TAG + "User not found with token");
+                throw new Error(TAG + "User not found with token");
+            }
+        })
+        .catch(function(err){
+            throw new Error(TAG + " " + err);
+        })
+    },
     updateToken: function(oldApiToken) {
         var TAG = CTAG + "(updateToken) ";
         var now = new Date().getTime();
