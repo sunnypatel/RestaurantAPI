@@ -33,15 +33,15 @@ module.exports = {
         },
         street: {
             type: 'string',
-            size: 10
+            size: 50
         },
         city: {
             type: 'string',
-            size: 15
+            size: 20
         },
         state: {
             type: 'string',
-            size: 3
+            size: 5
         },
         zipcode: {
             type: 'string',
