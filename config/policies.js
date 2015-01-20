@@ -26,7 +26,7 @@ module.exports.policies = {
   *                                                                          *
   ***************************************************************************/
 
-  // '*': true,
+  '*': 'logRequest',
   UserController: {
       //newAdmin: ['isTokenValid', 'isAdmin']
 	  apiToken: ['isTokenValid']
