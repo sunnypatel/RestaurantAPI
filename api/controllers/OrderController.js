@@ -30,6 +30,7 @@ module.exports = {
 		})
 		.then(function (created){
 			log.info(TAG + "Created new order");
+			Order.publishCreate(created);
 			res.status(200).send(created);
 		})
 		.catch(function (err){

@@ -1,20 +1,21 @@
+var Winston = require('winston');
 var WinstonGraylog2 = require('winston-graylog2');
 var options = {
 
-	name: 'Graylog'
+	name: 'Graylog',
 	level: 'debug',
 	silent: false,
 	handleExceptions: false,
 	graylog: {
-		servers: [{host: 'localhost', port: 12201}, {host: 'remote.host', port: 12201}],
-		hostname: 'myServer',
-		facility: 'myAwesomeApp',
+		servers: [{host: '73.188.53.84', port: 10100}],
+		hostname: 'scriber',
+		facility: 'RestaurantAPI',
 		bufferSize: 1400
 	}
 
-}
+};
 var log = require('captains-log')({
-	custom:new(winston.Logger)({
+	custom:new(Winston.Logger)({
 		exitOnError: false,
 		transports: [new(WinstonGraylog2)(options)]
 	})
