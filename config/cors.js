@@ -47,8 +47,8 @@ module.exports.cors = {
   *                                                                          *
   ***************************************************************************/
 
-  //origin: '*',
-  origin: 'http://localhost:2730, http://localhost:9000, http://manager.jesseme.com, http://jesseme.com, https://api.jesseme.com',
+  origin: '*',
+  //origin: 'http://localhost:2730, http://localhost:9000, http://manager.jesseme.com, http://jesseme.com, https://api.jesseme.com',
 
   /***************************************************************************
   *                                                                          *
