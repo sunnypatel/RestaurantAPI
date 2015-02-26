@@ -26,7 +26,9 @@
     "rc": "~0.5.0",
     "sails": "^0.11.0-rc10",
     "sails-disk": "~0.10.0",
-    "sails-mysql": "^0.10.7"
+    "sails-mysql": "^0.10.7",
+    "winston": "^0.8.3",
+    "winston-graylog2": "^0.2.1"
   },
   "scripts": {
     "start": "node app.js",
