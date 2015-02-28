@@ -22,12 +22,15 @@ module.exports = {
 			res.send(500);
 		});
 	},
-	test: function(req, res) {
-		Restaurant.destroy().exec(function(err, killed){
-			if (!err)
-				res.send(200);
-			else (err)
-				res.send(500, err);
-		})
+	restaurantLookup: function(req, res) {
+		var TAG = CTAG + "(restaurantLookup): ";
+
+		var place_ids = req.body.place_ids;
+
+		Restaurant.find({
+			google_place_id: place_ids
+		}).exec(function(err, found){
+			res.send(found);
+		});
 	}
 };
