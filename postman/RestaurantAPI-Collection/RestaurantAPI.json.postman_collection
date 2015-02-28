@@ -9,7 +9,9 @@
 		"734357cd-3fd0-f64b-3135-9cc1f9d905ed",
 		"87086eb8-215e-d57d-98aa-39f0ae81f608",
 		"0ebe59b0-cfcc-694d-7b1d-ce59010cf315",
-		"06f9f3c3-73d4-f34b-1cb6-9eccc74d0b73",
+		"47065815-aa90-c21b-f886-a2faa7cbc810",
+		"6e7e0b47-60e8-16ca-2175-648b3eee39ed",
+		"45be0026-8784-52c2-c0a4-b53c7cc7395e",
 		"d014a281-93e5-ba14-36d0-a8b258ba6383",
 		"b749c573-e8ad-5b9a-ac3a-7184cf09110f",
 		"41cb4ec8-6420-e617-aba1-ef28e602f770",
@@ -22,84 +24,27 @@
 	"folders": [],
 	"timestamp": 1416065077540,
 	"synced": false,
-	"remoteLink": "",
+	"remoteLink": "https://www.getpostman.com/collections/4c766e3eaf834508518e",
 	"requests": [
 		{
-			"id": "06f9f3c3-73d4-f34b-1cb6-9eccc74d0b73",
-			"headers": "",
-			"url": "http://{{Url}}/location/near",
-			"preRequestScript": "",
-			"pathVariables": {},
-			"method": "POST",
-			"data": [
-				{
-					"key": "latitude",
-					"value": "39.93842048",
-					"type": "text",
-					"enabled": true
-				},
-				{
-					"key": "longitude",
-					"value": "28.43834843",
-					"type": "text",
-					"enabled": true
-				}
-			],
-			"dataMode": "params",
-			"version": 2,
-			"tests": "",
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1418351519284,
-			"name": "Find Restaurant by Location",
-			"description": "",
-			"collectionId": "35e64bec-4773-0cbe-99ea-3b37dbc1dba3",
-			"responses": [],
-			"synced": false
-		},
-		{
 			"id": "0ebe59b0-cfcc-694d-7b1d-ce59010cf315",
-			"headers": "",
+			"headers": "Content-Type: application/json\n",
 			"url": "http://{{Url}}/restaurant/create",
 			"preRequestScript": "",
 			"pathVariables": {},
 			"method": "POST",
-			"data": [
-				{
-					"key": "name",
-					"value": "McDonald's",
-					"type": "text",
-					"enabled": true
-				},
-				{
-					"key": "latitude",
-					"value": "24.05435",
-					"type": "text",
-					"enabled": true
-				},
-				{
-					"key": "longitude",
-					"value": "35.23853",
-					"type": "text",
-					"enabled": true
-				},
-				{
-					"key": "apiToken",
-					"value": "6d507f30-7f0a-11e4-8ba5-fd35489b8ea0",
-					"type": "text",
-					"enabled": true
-				}
-			],
-			"dataMode": "params",
+			"data": [],
+			"dataMode": "raw",
 			"version": 2,
 			"tests": "",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1418064436439,
+			"time": 1425142154672,
 			"name": "Create Restaurant",
 			"description": "",
 			"collectionId": "35e64bec-4773-0cbe-99ea-3b37dbc1dba3",
-			"synced": false
+			"synced": false,
+			"rawModeData": "{\n  \"name\": \"CoolAssRestaurant\",\n  \"apiToken\": \"a7dfcfb0-a053-11e4-b15f-fb7d9875bcbf\",\n  \"street\": \"1508 Brandywine st.\",\n  \"city\": \"philadelphia\",\n  \"state\": \"PA\",\n  \"zipcode\": \"19130\",\n  \"country\": \"USA\",\n  \"phone\": \"2154590332\",\n  \"latitude\": 12.2343,\n  \"longitude\": 23.2384,\n  \"google_place_id\": \"123\"\n}"
 		},
 		{
 			"id": "160fae0f-22d5-763d-c1d3-16eacab507f8",
@@ -221,6 +166,72 @@
 			"synced": false
 		},
 		{
+			"id": "45be0026-8784-52c2-c0a4-b53c7cc7395e",
+			"headers": "Content-Type: application/json\n",
+			"url": "http://maps.googleapis.com/maps/api/geocode/json?latlng=25,35&sensor=false",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "GET",
+			"data": [
+				{
+					"key": "phone",
+					"value": "2154590332",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "password",
+					"value": "password",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "role",
+					"value": "admin",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "apiToken",
+					"value": "2d1078e0-772f-11e4-8ed8-37ae36069fcf",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"dataMode": "params",
+			"version": 2,
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1425096298182,
+			"name": "Google Reverse Geocode lookup",
+			"description": "",
+			"collectionId": "35e64bec-4773-0cbe-99ea-3b37dbc1dba3",
+			"responses": [],
+			"synced": false
+		},
+		{
+			"id": "47065815-aa90-c21b-f886-a2faa7cbc810",
+			"headers": "",
+			"url": "http://{{Url}}/restaurant/2020?google_place_id=123",
+			"pathVariables": {},
+			"preRequestScript": "",
+			"method": "PUT",
+			"data": [],
+			"dataMode": "params",
+			"name": "Update Restaurant Google_place_id",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1425138967793,
+			"version": 2,
+			"responses": [],
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"collectionId": "35e64bec-4773-0cbe-99ea-3b37dbc1dba3",
+			"synced": false
+		},
+		{
 			"id": "5b2770b0-9c1a-7b45-03ab-f32ac9ef105b",
 			"headers": "",
 			"url": "http://{{Url}}/user/newAdmin",
@@ -299,6 +310,27 @@
 			"synced": false
 		},
 		{
+			"id": "6e7e0b47-60e8-16ca-2175-648b3eee39ed",
+			"headers": "Content-Type: application/json\n",
+			"url": "http://{{Url}}/location/restaurantLookup",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1425142049800,
+			"name": "Search for restaurants by place_id",
+			"description": "",
+			"collectionId": "35e64bec-4773-0cbe-99ea-3b37dbc1dba3",
+			"responses": [],
+			"synced": false,
+			"rawModeData": "{\n    \"place_ids\": [\"123\"]\n}"
+		},
+		{
 			"id": "734357cd-3fd0-f64b-3135-9cc1f9d905ed",
 			"headers": "Content-Type: application/json\n",
 			"url": "http://{{Url}}/item",
@@ -311,12 +343,12 @@
 			"tests": "",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1418347976419,
+			"time": 1424403143527,
 			"name": "Create Item",
 			"description": "",
 			"collectionId": "35e64bec-4773-0cbe-99ea-3b37dbc1dba3",
 			"synced": false,
-			"rawModeData": "{\n  \"name\": \"Fries\",\n  \"price\": 1.50,\n  \"description\": \"Unsalted potato fries\",\n  \"image\": \"\",\n  \"restaurantId\": 1,\n  \"tags\": [],\n  \"ingredients\": [],\n  \"apiToken\": \"aec7c0e0-819e-11e4-bf2e-bdaa8546a0c7\"\n}"
+			"rawModeData": "{\n  \"name\": \"Burgers\",\n  \"price\": 134.50,\n  \"description\": \"Unsalted potato fries\",\n  \"image\": \"\",\n  \"restaurantId\": 2020,\n  \"tags\": [],\n  \"ingredients\": [],\n  \"apiToken\": \"114bd110-b8aa-11e4-a98c-7b45f2ca5443\"\n}"
 		},
 		{
 			"id": "87086eb8-215e-d57d-98aa-39f0ae81f608",
@@ -469,17 +501,42 @@
 		{
 			"id": "ce7cba5c-5a6e-f9a4-2c5a-09b5ecf32fc7",
 			"headers": "",
-			"url": "http://{{Url}}/user",
+			"url": "http://{{Url}}/item",
 			"preRequestScript": "",
 			"pathVariables": {},
 			"method": "GET",
-			"data": [],
+			"data": [
+				{
+					"key": "name",
+					"value": "McDonald's",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "latitude",
+					"value": "24.05435",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "longitude",
+					"value": "35.23853",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "apiToken",
+					"value": "6d507f30-7f0a-11e4-8ba5-fd35489b8ea0",
+					"type": "text",
+					"enabled": true
+				}
+			],
 			"dataMode": "params",
 			"version": 2,
 			"tests": "",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1418050784154,
+			"time": 1418393245896,
 			"name": "Lists Items",
 			"description": "",
 			"collectionId": "35e64bec-4773-0cbe-99ea-3b37dbc1dba3",

@@ -20,6 +20,7 @@ module.exports = {
 		var zipcode = req.param('zipcode') || "";
 		var country = req.param('country') || "";
 		var phone = req.param('phone') || "";
+		var google_place_id = req.param('google_place_id') || "";
 
 		TokenService.getUserByToken(apiToken)
 		.then(function(userObj){
@@ -35,7 +36,8 @@ module.exports = {
 				zipcode: zipcode,
 				country: country,
 				phone: phone,
-				owners: userObj.id
+				owners: userObj.id,
+				google_place_id: google_place_id
 			}).exec(function createCB(err, created){
 				if (err) {
 					log.error(TAG + "Restaurant create failed: " + err);

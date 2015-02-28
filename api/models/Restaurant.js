@@ -14,7 +14,9 @@ module.exports = {
 			required: true,
 		},
 		google_place_id: {
-			type: 'string'
+			type: 'string',
+			unique: true,
+			required: true
 		},
 		latitude: {
 			type: 'float',
