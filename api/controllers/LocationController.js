@@ -29,7 +29,9 @@ module.exports = {
 
 		Restaurant.find({
 			google_place_id: place_ids
-		}).exec(function(err, found){
+		})
+		.populate('items')
+		.exec(function(err, found){
 			res.send(found);
 		});
 	}
