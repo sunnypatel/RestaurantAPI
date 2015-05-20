@@ -38,5 +38,68 @@ module.exports = {
 			log.error(TAG + "Error creating new item: " + err);
 			res.send(500);
 		})
+	},
+	imageUpload: function(req, res) {
+		var itemId = req.param('itemId');
+		var AWS = require('aws-sdk');
+		var fs = require('fs');
+		var uuid = require('node-uuid');
+
+		Item.findOne({
+			id: itemId
+		})
+		.then(function (item){
+			req.file('image').upload({
+				maxBytes: 300000000
+			}, function whenDone(err, uploadedFiles) {
+				if (err) {
+					return res.negotiate(err);
+				}
+				// If no files were uploaded, response with error
+				if (uploadedFiles.length === 0){
+	      			return res.badRequest('No file was uploaded');
+	   			}
+				var file = fs.readFileSync(uploadedFiles[0].fd);
+			    var s3 = new AWS.S3();
+			    var uuid1 = uuid.v1({
+					node: [0x01, 0x23, 0x45, 0x67, 0x89, 0xab],
+					clockseq: 0x1234,
+					msecs: new Date().getTime(),
+					nsecs: 5678
+				});
+			    var filename = uuid1 + '.' + uploadedFiles[0].filename.split('.').pop();
+			    var bucketName = 'restaurantapi';
+			    var keyName = 'itemImages' + '/' + item.restaurantId + '/' + filename;
+		      	s3.createBucket({
+		      		Bucket: bucketName
+		      	}, function() {
+		      		var param = {Bucket: bucketName, Key: keyName, Body: file, ACL: 'public-read'};
+		      		s3.putObject(param, function(err, data){
+		      			if (err)
+		      				res.serverError(err);
+		      			else {
+		      				var successObj = {
+		      					url: 'https://s3.amazonaws.com/' + bucketName + '/' + keyName
+		      				}
+		      				Item.update({
+		      					id: item.id
+		      				}, {
+		      					image: successObj.url
+		      				})
+		      				.exec(function afterWards(err, update){
+		      					if (err) {
+		      						res.serverError(err);
+		      					} else {
+		      						res.ok(update);
+		      					}
+		      				})
+		      			}
+		      		})
+		      	});
+			})
+		})
+		.catch(function(err){
+			res.serverError(err);
+		});
 	}
 };
