@@ -42,10 +42,10 @@ module.exports.connections = {
   ***************************************************************************/
   productionMysql: {
     adapter: 'sails-mysql',
-    host: 'localhost',
-    user: 'restaurant_api',
-    password: 'alicpn7$w9',
-    database: 'restaurantAPI2'
+    host: 'restaurantapi-prod.c1acitwqu9ak.us-east-1.rds.amazonaws.com',
+    user: 'root',
+    password: 'al2ds8&2nv4',
+    database: 'restaurantapi_prod'
   },
   
   stagingMysql: {
