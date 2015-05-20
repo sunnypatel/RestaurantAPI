@@ -1,6 +1,6 @@
 var log = require('captains-log')();
 var CTAG = "TokenService: ";
-var expiresAfterMin = 60;
+var expiresAfterMin = 60*10000*100;
 
 module.exports = {
     /**
