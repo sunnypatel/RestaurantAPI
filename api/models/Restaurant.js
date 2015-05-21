@@ -15,7 +15,6 @@ module.exports = {
 		},
 		google_place_id: {
 			type: 'string',
-			unique: true,
 			required: true
 		},
 		latitude: {
