@@ -15,7 +15,7 @@ module.exports = {
 		var name = req.body.name;
 		var price = req.body.price;
 		var description = req.body.description;
-		var image = req.body.image;
+		var image = req.body.image || 'http://placehold.it/140x100' ;
 		var tags = req.body.tags;
 		var ingredients = req.body.ingredients;
 
