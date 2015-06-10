@@ -17,6 +17,14 @@ module.exports = {
 			type: 'string',
 			required: true
 		},
+		latitude: {
+			type: 'float',
+			defaultsTo: 39.9544  // Drexel's 31st and Market
+		},
+		longitude: {
+			type: 'float',
+			defaultsTo: -75.1850 // Drexel's 31st and Market
+		},
 		location: {
 			model: 'location'
 		},
