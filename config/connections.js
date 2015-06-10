@@ -47,7 +47,7 @@ module.exports.connections = {
     password: 'al2ds8&2nv4',
     database: 'restaurantapi_prod'
   },
-  
+
   stagingMysql: {
     adapter: 'sails-mysql',
     host: 'localhost',
@@ -63,13 +63,13 @@ module.exports.connections = {
   * Run: npm install sails-mongo                                             *
   *                                                                          *
   ***************************************************************************/
-  someMongodbServer: {
+  mongodbCluster: {
     adapter: 'sails-mongo',
-    host: 'localhost',
+    host: '52.7.30.18',
     port: 27017,
     // user: 'username',
     // password: 'password',
-    // database: 'your_mongo_db_name_here'
+    database: 'RestaurantAPI'
   },
 
   /***************************************************************************

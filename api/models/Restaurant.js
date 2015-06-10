@@ -17,14 +17,6 @@ module.exports = {
 			type: 'string',
 			required: true
 		},
-		latitude: {
-			type: 'float',
-			defaultsTo: 39.9544  // Drexel's 31st and Market
-		},
-		longitude: {
-			type: 'float',
-			defaultsTo: -75.1850 // Drexel's 31st and Market
-		},
 		location: {
 			model: 'location'
 		},
@@ -33,27 +25,30 @@ module.exports = {
 		},
 		phone: {
 			type: 'string',
-			size: 15,
+			size: 15
 		},
-		street: {
-			type: 'string',
-			size: 50
+		address: {
+			type: 'String',
+			size: 25
+		},
+		address2: {
+			type: 'String',
+			size: 10
 		},
 		city: {
-			type: 'string',
+			type: 'String',
 			size: 20
 		},
 		state: {
-			type: 'string',
-			size: 5
+			type: 'String',
+			size: 15
 		},
 		zipcode: {
-			type: 'string',
-			size: 9
-		},
-		country: {
-			type: 'string',
+			type: 'String',
 			size: 10
+		},
+		salesTax: {
+			type: 'Float'
 		},
 		items: {
 			collection: 'item',

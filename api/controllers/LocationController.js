@@ -10,16 +10,29 @@ var CTAG = "LocationController";
 module.exports = {
 	near: function(req, res) {
 		var TAG = CTAG + "(near): ";
-		var latitude = req.param('latitude');
-		var longitude = req.param('longitude');
+		var lat = req.param('latitude');
+		var lng = req.param('longitude');
 
-		LocationService.findNear(latitude, longitude)
-		.then(function(found){
-			res.send(200, found);
-		})
-		.catch(function (err){
-			log.error(TAG + "Error locating restaurant");
-			res.send(500);
+		log.info(TAG + "Searching near: " + lat + ", " + lng);
+
+		Location.native(function(err, collection) {
+            if (err) return err;
+            log.info("here");
+            collection.find({
+                coordinates : {
+                    $near : {
+                        $geometry : {
+                            type : "Point",
+                            coordinates : [lng, lat]
+                        },
+                        $maxDistance : 5000
+                    }
+                }
+            })
+			.toArray(function(err, results){
+				if (err) return res.serverError(err);
+				return res.ok(results);
+			});
 		});
 	},
 	restaurantLookup: function(req, res) {

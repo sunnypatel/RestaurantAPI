@@ -42,9 +42,24 @@ module.exports = {
 				if (err) {
 					log.error(TAG + "Restaurant create failed: " + err);
 					res.status(500).send({error: TAG + "Restaurant create failed"});
+				} else {
+					log.info(TAG + 'Restaurant created: ' + created.name);
+					var loc = {
+						longitude: longitude,
+						latitude: latitude
+					};
+					Location.create({
+						coordinates: loc,
+						Restaurant: created.id
+					}).exec(function createCB(err, locationCreated){
+						if (err) {
+							log.error(TAG + "Location creation failed: " + err);
+							res.status(500).send({error: TAG + "Location creation failed: " + err});
+						} else {
+							res.send(created);
+						}
+					});
 				}
-				log.info(TAG + 'Restaurant created: ' + created.name);
-				res.send(created);
 			})
 		})
 		.catch(function(err){
