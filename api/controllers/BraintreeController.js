@@ -17,12 +17,15 @@ var gateway = braintree.connect({
 
 module.exports = {
 	generateToken: function(req, res) {
-		var brainTreeCustomerId = req.body.brainTreeCustomerId || res.serverError({"error": "Valid customerId required"});
-		gateway.clientToken.generate({
-			customerId: brainTreeCustomerId
-		}, function (err, response) {
-			res.send(response.clientToken);
-		});
+		var userId = req.body.userId || res.serverError({"error": "Valid userId required"});
+		User.findOne({id: userId})
+		.exec(function(err, user){
+			gateway.clientToken.generate({
+				customerId: user.brainTreeCustomerId
+			}, function (err, response) {
+				res.send({"token":response.clientToken});
+			});
+		})
 	},
 	createTransaction: function(req, res) {
 		var nonce = req.body.nonce || res.serverError({"error": "missing required fields"});
