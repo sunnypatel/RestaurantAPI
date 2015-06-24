@@ -18,6 +18,7 @@ module.exports = {
 		var confirmed = req.body.confirmed;
 		var restaurantId = req.body.restaurantId;
 		var items = req.body.items;
+		var nonce = req.body.nonce;
 
 		Order.create({
 			totalSale: totalSale,
