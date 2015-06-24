@@ -8,6 +8,17 @@
 module.exports = {
 
   attributes: {
+    firstName: {
+        type: 'string',
+        size: 25
+    },
+    lastName: {
+        type: 'string',
+        size: 25
+    },
+    email: {
+        type: 'email'
+    },
     phone: {
       type: 'string',
       size: 15,
@@ -30,6 +41,9 @@ module.exports = {
     ownsRestaurants: {
       collection: 'restaurant',
       via:'owners'
+    },
+    brainTreeCustomerId: {
+        type: 'string'
     }
   },
   beforeCreate: function (attrs, next) {

@@ -43,7 +43,8 @@ module.exports = {
 									log.info(TAG + "Moving on");
 									// token not expired send old one
 									res.json({
-										apiToken: user.apiToken
+										apiToken: user.apiToken,
+										userId: user.id
 									});
 									// Fulfill your promise man!
 									return user.apiToken;
@@ -70,7 +71,11 @@ module.exports = {
 										else
 											log.info(TAG + "Updated token with userId");
 									});
-									res.json({apiToken: user.apiToken}, 200);
+									// send new token
+									res.json({
+										apiToken: user.apiToken,
+										userId: user.id
+									}, 200);
 								})
 								.catch(function(err){
 									log.error("Something went wrong, err:" + err);
