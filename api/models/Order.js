@@ -28,7 +28,8 @@ module.exports = {
       },
       items: {
           collection: 'item',
-          via: 'orders'
+          via: 'orders',
+          type: 'array'
       },
       restaurantId: {
           model: 'restaurant'
