@@ -11,6 +11,7 @@ module.exports = {
 
 	create: function(req, res) {
 		var TAG = CTAG + " (create): ";
+		var apiToken = req.body.apiToken || res.serverError();
 		var totalSale = req.body.totalSale;
 		var totalSalesTax = req.body.totalSalesTax;
 		var salesTax = req.body.salesTax;
@@ -20,23 +21,32 @@ module.exports = {
 		var items = req.body.items;
 		var nonce = req.body.nonce;
 
-		Order.create({
-			totalSale: totalSale,
-			totalSalesTax: totalSalesTax,
-			salesTax: salesTax,
-			paid: paid,
-			confirmed: confirmed,
-			restaurantId: restaurantId,
-			items: items
+		TokenService.getUserByToken(apiToken)
+		.then(function(result){
+
+			console.log(result);
+			Order.create({
+				totalSale: totalSale,
+				totalSalesTax: totalSalesTax,
+				salesTax: salesTax,
+				paid: paid,
+				confirmed: confirmed,
+				restaurantId: restaurantId,
+				items: items,
+				user: result.id
+			})
+			.then(function (created){
+				log.info(TAG + "Created new order");
+				Order.publishCreate(created);
+				res.status(200).send(created);
+			})
+			.catch(function (err){
+				log.error(TAG + "Failed to create new order: " + err);
+				res.send(500);
+			});
 		})
-		.then(function (created){
-			log.info(TAG + "Created new order");
-			Order.publishCreate(created);
-			res.status(200).send(created);
-		})
-		.catch(function (err){
-			log.error(TAG + "Failed to create new order: " + err);
-			res.send(500);
+		.catch(function(err){
+			res.serverError(err);
 		});
 	}
 };
