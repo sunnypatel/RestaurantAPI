@@ -13,7 +13,9 @@ module.exports = {
             size: 35
         },
         price: {
-            type: 'float'
+            type: 'float',
+            required: true,
+            defaultsTo: 0.0
         },
         description: {
             type: 'text'

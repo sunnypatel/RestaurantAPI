@@ -33,6 +33,9 @@ module.exports = {
       },
       restaurantId: {
           model: 'restaurant'
+      },
+      user: {
+          model: 'user'
       }
   }
 };

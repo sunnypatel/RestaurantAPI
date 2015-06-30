@@ -48,6 +48,7 @@ module.exports.routes = {
   'GET /restaurant/create' : {response: 'badRequest'},
   'POST /restaurant/create' : 'Restaurant.create',
   'POST /item/create' : 'Item.create',
+  'POST /order' : 'Order.create',
   'POST /user/login' : 'User.login',
   'GET /user/login' : {response: 'badRequest'},
   'POST /user'      : 'User.apiToken',
