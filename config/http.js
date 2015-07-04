@@ -21,7 +21,7 @@ module.exports.http = {
   *                                                                           *
   ****************************************************************************/
 
-  // middleware: {
+  middleware: {
 
   /***************************************************************************
   *                                                                          *
@@ -30,23 +30,23 @@ module.exports.http = {
   *                                                                          *
   ***************************************************************************/
 
-    // order: [
+    order: [
     //   'startRequestTimer',
     //   'cookieParser',
     //   'session',
-    //   'myRequestLogger',
+        'myRequestLogger',
     //   'bodyParser',
     //   'handleBodyParserError',
     //   'compress',
     //   'methodOverride',
     //   'poweredBy',
     //   '$custom',
-    //   'router',
+   'router',
     //   'www',
     //   'favicon',
     //   '404',
     //   '500'
-    // ],
+    ],
 
   /****************************************************************************
   *                                                                           *
@@ -54,10 +54,10 @@ module.exports.http = {
   *                                                                           *
   ****************************************************************************/
 
-    // myRequestLogger: function (req, res, next) {
-    //     console.log("Requested :: ", req.method, req.url);
-    //     return next();
-    // }
+    myRequestLogger: function (req, res, next) {
+        console.log("Requested :: " + req.method + req.url);
+        return next();
+    },
 
 
   /***************************************************************************
@@ -71,7 +71,7 @@ module.exports.http = {
 
     // bodyParser: require('skipper')
 
-  // },
+    }
 
   /***************************************************************************
   *                                                                          *
