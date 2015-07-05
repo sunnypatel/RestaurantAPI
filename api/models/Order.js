@@ -36,6 +36,9 @@ module.exports = {
       },
       user: {
           model: 'user'
+      },
+      nonce: {
+          type: 'string'
       }
   }
 };
