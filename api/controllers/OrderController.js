@@ -29,7 +29,6 @@ module.exports = {
 				return saleSum;
 			}, 0);
 
-			log.info('sunnyhere');
 			log.error(calculatedTotal);
 			var totalSale = req.body.totalSale || calculatedTotal;
 			log.error(totalSale);
@@ -44,7 +43,8 @@ module.exports = {
 					confirmed: confirmed,
 					restaurantId: restaurantId,
 					items: items,
-					user: userObj.id
+					user: userObj.id,
+					nonce: nonce
 				})
 				.then(function (created){
 					log.info(TAG + "Created new order");
