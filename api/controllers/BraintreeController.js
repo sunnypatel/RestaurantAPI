@@ -14,6 +14,7 @@ var gateway = braintree.connect({
   publicKey: "3bjft3ttty7sg4k8",
   privateKey: "97fec7da34d7a5879df4608d15f13a9e"
 });
+
 function doTransaction (amount, nonce){
     return new Promise(function(resolve, reject){
         gateway.transaction.sale({
@@ -28,6 +29,7 @@ function doTransaction (amount, nonce){
         });
     });
 };
+
 module.exports = {
 
 	generateToken: function(req, res) {

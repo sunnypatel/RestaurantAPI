@@ -5,10 +5,16 @@
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
 var log = require('captains-log')();
+var Promise = require('bluebird');
 var CTAG = "OrderController";
 
 module.exports = {
-
+	list: function(req,res){
+		Order.find({id: req.body.orderId})
+		.then(function(results){
+			res.send(results);
+		});
+	},
 	create: function(req, res) {
 		var TAG = CTAG + " (create): ";
 		var apiToken = req.body.apiToken || res.serverError();
@@ -20,11 +26,18 @@ module.exports = {
 		var items = req.body.items;
 		var nonce = req.body.nonce;
 
-		Item.find({
-			id : items
-		})
-		.then(function(itemsObj) {
-			var calculatedTotal = itemsObj.reduce(function(saleSum, item, index){
+		var itemObjs = [];
+		Promise.map(items, function(itemId){
+			return Item.findOne({
+				id: itemId
+			}).then(function(resultItemObj){
+				return resultItemObj;
+			}).catch(function(err){
+				return err;
+			});
+		}).then(function(itemObjs){
+
+			var calculatedTotal = itemObjs.reduce(function(saleSum, item, index){
 				saleSum += item.price;
 				return saleSum;
 			}, 0);
@@ -32,7 +45,8 @@ module.exports = {
 			log.error(calculatedTotal);
 			var totalSale = req.body.totalSale || calculatedTotal;
 			log.error(totalSale);
-
+			log.info('items');
+			log.info(items);
 			TokenService.getUserByToken(apiToken)
 			.then(function(userObj){
 				Order.create({
@@ -42,13 +56,28 @@ module.exports = {
 					paid: paid,
 					confirmed: confirmed,
 					restaurantId: restaurantId,
-					items: items,
 					user: userObj.id,
 					nonce: nonce
 				})
 				.then(function (created){
+					created.items.add(items);
+					created.save(function(err, updated){
+						created = updated;
+						console.log('saving');
+						console.log(updated);
+					});
+					/*
+					items.forEach(function(itemId){
+						created.items.add(itemId);
+						created.save(function(err,s){
+							console.log("save");
+							console.log(err);
+							console.log(s);
+						});
+					});*/
 					log.info(TAG + "Created new order");
-					Order.findOne({id: created.id})
+					log.info(created);
+					Order.find({id: created.id})
 					.populate('items')
 					.populate('user')
 					.then(function(createdOrderObj){
@@ -71,8 +100,8 @@ module.exports = {
 			});
 
 		}).catch(function(err){
-			log.error(TAG + err);
-			res.serverError(err);
+			log.error(TAG + "Error getting item objects");
+			log.error(err);
 		});
 
 	}

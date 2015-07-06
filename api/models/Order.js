@@ -27,9 +27,9 @@ module.exports = {
           defaultsTo: false
       },
       items: {
-          collection: 'item',
+          collection: 'Item',
           via: 'orders',
-          type: 'array'
+          dominant: true
       },
       restaurantId: {
           model: 'restaurant'
