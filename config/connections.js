@@ -72,6 +72,12 @@ module.exports.connections = {
     database: 'RestaurantAPI'
   },
 
+  stagingMongoDb:{
+      adapter: 'sails-mongo',
+      host: 'staging.jesseme.com',
+      port: 4717,
+      database: 'RestaurantAPI'
+  },
   /***************************************************************************
   *                                                                          *
   * PostgreSQL is another officially supported relational database.          *
