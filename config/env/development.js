@@ -18,7 +18,7 @@ module.exports = {
    ***************************************************************************/
 
   models: {
-   connection: 'localDiskDb'
-  },
-  port: 2730
+    connection: 'stagingMongoDb'
+  }
+
 };
