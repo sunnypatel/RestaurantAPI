@@ -10,7 +10,7 @@
  */
 
 var request = require('request');
-
+var os = require("os");
 module.exports.http = {
 
   /****************************************************************************
@@ -60,6 +60,8 @@ module.exports.http = {
 
         var logRequest = {
             serviceName: "RestaurantAPI",
+            serviceHostname: os.hostname(),
+            environment: process.env.NODE_ENV || 'development',
             host: req.headers.host,
             endPoint: req.url,
             method: req.method,
@@ -69,7 +71,7 @@ module.exports.http = {
             contentLength: req.headers['content-length'],
             ip: req.ip
         };
-
+        
         request({
             url: 'http://kibana.jesseme.com:8080',
             method: 'POST',
