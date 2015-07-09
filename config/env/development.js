@@ -19,6 +19,7 @@ module.exports = {
 
   models: {
     connection: 'stagingMongoDb'
-  }
+  },
 
+  port: 2730,
 };

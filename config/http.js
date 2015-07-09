@@ -9,6 +9,8 @@
  * http://sailsjs.org/#/documentation/reference/sails.config/sails.config.http.html
  */
 
+var request = require('request');
+
 module.exports.http = {
 
   /****************************************************************************
@@ -31,21 +33,21 @@ module.exports.http = {
   ***************************************************************************/
 
     order: [
-    //   'startRequestTimer',
-    //   'cookieParser',
-    //   'session',
+        'startRequestTimer',
+        'cookieParser',
+        'session',
+        'bodyParser',
         'myRequestLogger',
-    //   'bodyParser',
-    //   'handleBodyParserError',
-    //   'compress',
-    //   'methodOverride',
+        'handleBodyParserError',
+        'compress',
+        'methodOverride',
     //   'poweredBy',
     //   '$custom',
-   'router',
-    //   'www',
-    //   'favicon',
-    //   '404',
-    //   '500'
+        'router',
+        'www',
+        'favicon',
+        '404',
+        '500'
     ],
 
   /****************************************************************************
@@ -55,7 +57,29 @@ module.exports.http = {
   ****************************************************************************/
 
     myRequestLogger: function (req, res, next) {
-        console.log("Requested :: " + req.method + req.url);
+
+        var logRequest = {
+            serviceName: "RestaurantAPI",
+            host: req.headers.host,
+            endPoint: req.url,
+            method: req.method,
+            protocol: req.protocol,
+            body: JSON.stringify(req.body),
+            contentType: req.headers['content-type'],
+            contentLength: req.headers['content-length'],
+            ip: req.ip
+        };
+
+        request({
+            url: 'http://kibana.jesseme.com:8080',
+            method: 'POST',
+            json: logRequest,
+        }, function(error, message, body){
+                if(error) {
+                    console.log(error);
+                }
+            }
+        );
         return next();
     },
 
